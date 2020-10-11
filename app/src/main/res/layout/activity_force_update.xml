@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_update_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在更新，请稍后..."
+            android:textColor="#3c3c3c"
+            android:textSize="28px" 
+            android:layout_above="@id/lin_center_progressBar"
+            android:layout_marginBottom="10px"
+            android:layout_centerHorizontal="true"/>
+
+        <LinearLayout
+            android:id="@+id/lin_center_progressBar"
+            android:layout_width="680px"
+            android:layout_height="40px"
+            android:layout_centerInParent="true"
+            android:background="@drawable/base_round_bdbdbd_45dip"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/progressBar_update"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="32px"
+                android:layout_marginLeft="5px"
+                android:layout_marginRight="5px"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/base_progress_red" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_update_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10px"
+            android:layout_below="@id/lin_center_progressBar"
+            android:layout_centerHorizontal="true"
+            android:text="0%"
+            android:textColor="#7c7c7c"
+            android:textSize="32px" />
+
+        <TextView
+            android:id="@+id/tv_install"
+            android:layout_width="260px"
+            android:layout_height="60px"
+            android:layout_marginTop="30px"
+            android:background="@drawable/base_round_9c1212_45dip"
+            android:layout_below="@id/tv_update_num"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="立即安装"
+            android:textColor="#ffffff"
+            android:textSize="34px" />
+        
+        <TextView
+            android:id="@+id/tv_update_introduce"
+            android:layout_width="400px"
+            android:layout_height="400px"
+            android:layout_below="@id/tv_install"
+            android:layout_marginTop="20px"
+            android:layout_centerHorizontal="true"
+            android:singleLine="false"
+            android:paddingLeft="5px"
+            android:textColor="#3c3c3c"
+            android:text=""
+            android:textSize="34px"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
