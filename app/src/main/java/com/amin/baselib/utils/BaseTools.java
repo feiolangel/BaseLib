@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * Created by 80534 on 2018/03/15.
  */
 
-public class Tools {
+public class BaseTools {
 
     //转换成深色
     public static int getDarkerColor(int color){

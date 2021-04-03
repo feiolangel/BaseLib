@@ -44,7 +44,7 @@ public class WebViewForBaseSwitchActivity extends AppCompatActivity implements V
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_webview_for_h5);
+        setContentView(R.layout.activity_webview_for_h5_base);
 
         type = getIntent().getIntExtra("type",0);
 

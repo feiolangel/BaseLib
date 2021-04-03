@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/lin_main_title"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:background="@color/title_color"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="42px"
+            android:layout_weight="1">
+
+            <!--扩大点击区域，外面套一个LinearLayout-->
+            <LinearLayout
+                android:id="@+id/back"
+                android:layout_width="200px"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25px"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:onClick="onBack"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20px"
+                    android:layout_height="34px"
+                    android:src="@mipmap/icon_arrow_left_white_base"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="42px"
+                android:text="@string/app_name"
+                android:textColor="#ffffff" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

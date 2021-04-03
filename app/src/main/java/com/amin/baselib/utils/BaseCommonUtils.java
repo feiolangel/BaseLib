@@ -10,7 +10,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class CommonUtils {
+public class BaseCommonUtils {
 
     private static final String TAG = "CommonUtils";
 

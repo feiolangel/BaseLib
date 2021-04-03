@@ -75,9 +75,15 @@ public class HttpUrlGetToString<T> {
 
         class_name = this.getClass().toString();
 
+        if(!url.endsWith("/")){
+
+            url = url+"/";
+
+        }
+
         //步骤4:创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url+"/")
+                .baseUrl(url)
                 .build();
 
         // 步骤5:创建 网络请求接口 的实例
@@ -85,7 +91,7 @@ public class HttpUrlGetToString<T> {
 
         //对 发送请求 进行封装
 //        Call<ResponseBody> call = request.getCall(url_detail + "?" + params);
-        Call<ResponseBody> call = request.getCall(url+"?",options);
+        Call<ResponseBody> call = request.getCall("",options);
 
         //步骤6:发送网络请求(异步)
         call.enqueue(new Callback<ResponseBody>() {
@@ -104,8 +110,6 @@ public class HttpUrlGetToString<T> {
             }
         });
 
-//        Log.e("请求"+class_name,mUrl);
-
     }
 
     protected void handleResponse(retrofit2.Response<ResponseBody> response){
@@ -114,7 +118,6 @@ public class HttpUrlGetToString<T> {
 
             try {
                 http_response = response.body().string();
-//                Log.e("HTTPResponse:", class_name + "->" + http_response);
                 callback.onSuccess(parser(http_response));
             } catch (Exception e) {
                 e.printStackTrace();

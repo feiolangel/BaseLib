@@ -81,6 +81,13 @@ public class HttpPost<T> {
 
         class_name = this.getClass().toString();
 
+
+        if(!url_base.endsWith("/")){
+
+            url_base = url_base+"/";
+
+        }
+
         //步骤4:创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url_base) // 设置 网络请求 Url
@@ -110,7 +117,7 @@ public class HttpPost<T> {
             }
         });
 
-//        Log.e("请求"+class_name,mUrl);
+
 
     }
 
@@ -121,7 +128,6 @@ public class HttpPost<T> {
             try {
                 http_response = response.body().string();
                 jsonObject = new JSONObject(http_response);
-                Log.e("HTTPResponse:", class_name + "->" + http_response);
                 callback.onSuccess(parser(jsonObject));
             } catch (Exception e) {
                 e.printStackTrace();

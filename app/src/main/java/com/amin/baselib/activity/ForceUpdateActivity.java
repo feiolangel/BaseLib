@@ -15,8 +15,8 @@ import androidx.core.content.FileProvider;
 
 import com.amin.baselib.BaseSwitchUtil;
 import com.amin.baselib.R;
-import com.amin.baselib.utils.CommonUtils;
-import com.amin.baselib.utils.Tools;
+import com.amin.baselib.utils.BaseCommonUtils;
+import com.amin.baselib.utils.BaseTools;
 import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.OnProgressListener;
@@ -52,7 +52,7 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_force_update);
+        setContentView(R.layout.activity_force_update_base);
 
         getIntent().getPackage();
 
@@ -65,7 +65,7 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
 
     private void initView() {
 
-        dirPath = Tools.getRootDirPath(getApplicationContext());
+        dirPath = BaseTools.getRootDirPath(getApplicationContext());
 
         iv_update_background = findViewById(R.id.iv_update_background);
 //        Glide.with(this).load("file:///android_asset/update_default.jpg").into(iv_update_background);
@@ -153,7 +153,7 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
             //判断是否是AndroidN以及更高的版本
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                Uri contentUri = FileProvider.getUriForFile(context, CommonUtils.getCurrentProcessName(BaseSwitchUtil.mContext)+".provider", file);
+                Uri contentUri = FileProvider.getUriForFile(context, BaseCommonUtils.getCurrentProcessName(BaseSwitchUtil.mContext)+".provider", file);
                 i.setDataAndType(contentUri, "application/vnd.android.package-archive");
             } else {
                 i.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");

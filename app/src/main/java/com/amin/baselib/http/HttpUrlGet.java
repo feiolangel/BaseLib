@@ -77,6 +77,12 @@ public class HttpUrlGet<T> {
 
         class_name = this.getClass().toString();
 
+        if(!url.endsWith("/")){
+
+            url = url+"/";
+
+        }
+
         //步骤4:创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
 //                .baseUrl(url+"/")
@@ -90,8 +96,6 @@ public class HttpUrlGet<T> {
 //        Call<ResponseBody> call = request.getCall(url_detail + "?" + params);
         Call<ResponseBody> call = request.getCall("",options);
 
-        Log.e("Url",call.request().url().url().toString());
-//        Log.e("mUrl",mUrl);
 
         //步骤6:发送网络请求(异步)
         call.enqueue(new Callback<ResponseBody>() {
@@ -111,7 +115,6 @@ public class HttpUrlGet<T> {
             }
         });
 
-//        Log.e("请求"+class_name,mUrl);
 
     }
 
@@ -121,7 +124,6 @@ public class HttpUrlGet<T> {
 
             try {
                 http_response = response.body().string();
-//                Log.e("HTTPResponse:", class_name + "->" + http_response);
                 jsonObject = new JSONObject(http_response);
                 callback.onSuccess(parser(jsonObject));
             } catch (Exception e) {

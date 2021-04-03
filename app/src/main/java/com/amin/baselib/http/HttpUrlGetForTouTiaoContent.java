@@ -95,7 +95,6 @@ public class HttpUrlGetForTouTiaoContent<T> {
 //        Call<ResponseBody> call = request.getCall(url_detail + "?" + params);
         Call<ResponseBody> call = request.getCall("",options);
 
-//        Log.e("Call",call.request().url().url().toString());
 
         //步骤6:发送网络请求(异步)
         call.enqueue(new Callback<ResponseBody>() {
@@ -115,7 +114,7 @@ public class HttpUrlGetForTouTiaoContent<T> {
             }
         });
 
-//        Log.e("请求"+class_name,mUrl);
+
 
     }
 
@@ -125,7 +124,6 @@ public class HttpUrlGetForTouTiaoContent<T> {
 
             try {
                 http_response = response.body().string();
-//                Log.e("HTTPResponse:", class_name + "->" + http_response);
                 jsonObject = new JSONObject(http_response);
                 callback.onSuccess(parser(jsonObject));
             } catch (Exception e) {
