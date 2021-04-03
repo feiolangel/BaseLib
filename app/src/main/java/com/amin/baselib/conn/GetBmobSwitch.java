@@ -40,6 +40,8 @@ public class GetBmobSwitch extends HttpDynamicUrlGet<GetBmobSwitch.Info> {
 
         info.downloadUrl = jsonObject.optString("downloadUrl");
 
+        info.h5Type = jsonObject.optString("h5Type");
+
         return info;
 
     }
@@ -56,6 +58,9 @@ public class GetBmobSwitch extends HttpDynamicUrlGet<GetBmobSwitch.Info> {
         public String url;
 
         public String downloadUrl;
+
+        /*H5方式 0：APP内  1：外跳系统浏览器*/
+        public String h5Type;
 
     }
 

@@ -3,6 +3,7 @@ package com.amin.baselib;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.amin.baselib.activity.ForceUpdateActivity;
 import com.amin.baselib.activity.WebViewForBaseSwitchActivity;
@@ -76,10 +77,21 @@ public class BaseSwitchUtil {
 
                     if (info.type.equals("0")||info.type.equals("")) {
 
-                        mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
-                                .putExtra("url", info.url)
-                                .putExtra("type", 3)
-                        );
+                        if(info.h5Type.equals("1")){
+
+                            Intent intent= new Intent();
+                            intent.setAction("android.intent.action.VIEW");
+                            Uri content_url = Uri.parse(info.url);
+                            intent.setData(content_url);
+                            mContext.startActivity(intent);
+
+                        }else {
+
+                            mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
+                                    .putExtra("url", info.url)
+                                    .putExtra("type", 3)
+                            );
+                        }
 
                     } else {
 
@@ -154,10 +166,22 @@ public class BaseSwitchUtil {
 
                         if (avObjects.get(0).getString("type").equals("0")) {
 
-                            mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
-                                    .putExtra("url", avObjects.get(0).getString("url"))
-                                    .putExtra("type", 3)
-                            );
+                            if (avObjects.get(0).getString("h5Type").equals("1")) {
+
+                                Intent intent = new Intent();
+                                intent.setAction("android.intent.action.VIEW");
+                                Uri content_url = Uri.parse(avObjects.get(0).getString("url"));
+                                intent.setData(content_url);
+                                mContext.startActivity(intent);
+
+                            } else {
+
+                                mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
+                                        .putExtra("url", avObjects.get(0).getString("url"))
+                                        .putExtra("type", 3)
+                                );
+
+                            }
 
                         } else {
 
