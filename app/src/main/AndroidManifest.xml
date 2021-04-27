@@ -13,18 +13,21 @@
         <activity
             android:name="com.amin.baselib.activity.WebViewForBaseSwitchActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
 
         <!--强更-->
         <activity
             android:name="com.amin.baselib.activity.ForceUpdateActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
 
         <!--用户协议页面-->
         <activity
             android:name="com.amin.baselib.activity.WebViewNoHideBaseActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
 
         <!--隐私协议弹窗-->
