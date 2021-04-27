@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.List;
+
 public class BaseCommonUtils {
 
     private static final String TAG = "CommonUtils";
@@ -51,6 +53,23 @@ public class BaseCommonUtils {
         } catch (Exception ex) {
             Log.e(TAG, "Was not able to restart application");
         }
+    }
+
+    public static void exitApp(Context context){
+
+        // 1. 通过Context获取ActivityManager
+        ActivityManager activityManager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+
+        // 2. 通过ActivityManager获取任务栈
+        List<ActivityManager.AppTask> appTaskList = activityManager.getAppTasks();
+
+        // 3. 逐个关闭Activity
+        for (ActivityManager.AppTask appTask : appTaskList) {
+            appTask.finishAndRemoveTask();
+        }
+        // 4. 结束进程
+         System.exit(0);
+
     }
 
     public static int getVersionCode(Context context) {

@@ -3,13 +3,16 @@ package com.amin.baselib;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 
 import com.amin.baselib.activity.ForceUpdateActivity;
+import com.amin.baselib.activity.PrivacyDialogBaseActivity;
 import com.amin.baselib.activity.WebViewForBaseSwitchActivity;
 import com.amin.baselib.conn.GetBaseSwitch;
 import com.amin.baselib.conn.GetBmobSwitch;
 import com.amin.baselib.http.MyCallback;
+import com.amin.baselib.utils.BaseCommonUtils;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class BaseSwitchUtil {
     private static String mVersionCode;
     private static Class mClass;
     private static Activity mActivity;
+    public static SharedPreferences Preferences;
 
     private static GetBaseSwitch getBaseSwitch = new GetBaseSwitch(new MyCallback<GetBaseSwitch.Info>() {
         @Override
@@ -34,7 +38,7 @@ public class BaseSwitchUtil {
 
             if (info.msg.equals("000")) {
 
-                if (info.type.equals("0")||info.type.equals("")) {
+                if (info.type.equals("0") || info.type.equals("")) {
 
                     AVOSCloud.initialize(mContext, info.id, info.key);
 
@@ -52,7 +56,7 @@ public class BaseSwitchUtil {
             } else {
 
                 mContext.startActivity(new Intent(mContext, mClass));
-                mActivity.finish();
+                Finish();
 
             }
 
@@ -62,7 +66,7 @@ public class BaseSwitchUtil {
         public void onFail(String msg) {
 
             mContext.startActivity(new Intent(mContext, mClass));
-            mActivity.finish();
+            Finish();
 
         }
     });
@@ -71,50 +75,50 @@ public class BaseSwitchUtil {
         @Override
         public void onSuccess(GetBmobSwitch.Info info) {
 
-            if(info.msg.equals("000")){
+            if (info.msg.equals("000")) {
 
-                if(info.isOpen.equals("1")){
+                if (info.isOpen.equals("1")) {
 
-                    if (info.type.equals("0")||info.type.equals("")) {
+                    if (info.type.equals("0") || info.type.equals("")) {
 
-                        if(info.h5Type.equals("1")){
+                        if (info.h5Type.equals("1")) {
 
-                            Intent intent= new Intent();
+                            Intent intent = new Intent();
                             intent.setAction("android.intent.action.VIEW");
                             Uri content_url = Uri.parse(info.url);
                             intent.setData(content_url);
                             mContext.startActivity(intent);
 
-                        }else {
+                        } else {
 
                             mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
                                     .putExtra("url", info.url)
                                     .putExtra("type", 3)
                             );
+
                         }
 
                     } else {
 
                         mContext.startActivity(new Intent(mContext, ForceUpdateActivity.class)
-                                .putExtra("downLoadUrl",info.downloadUrl)
+                                .putExtra("downLoadUrl", info.downloadUrl)
                         );
 
                     }
 
 
-
-                }else {
+                } else {
 
                     mContext.startActivity(new Intent(mContext, mClass));
-                    mActivity.finish();
+                    Finish();
 
                 }
 
 
-            }else {
+            } else {
 
                 mContext.startActivity(new Intent(mContext, mClass));
-                mActivity.finish();
+                Finish();
 
             }
 
@@ -124,7 +128,7 @@ public class BaseSwitchUtil {
         public void onFail(String msg) {
 
             mContext.startActivity(new Intent(mContext, mClass));
-            mActivity.finish();
+            Finish();
 
         }
     });
@@ -139,9 +143,13 @@ public class BaseSwitchUtil {
         mPackageName = packageName;
         mVersionCode = versionCode;
         mClass = firstClass;
+        if(Preferences == null){
+            Preferences = context.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(context), Context.MODE_PRIVATE);
+        }
         getBaseSwitch.packageName = packageName;
         getBaseSwitch.versionCode = versionCode;
         getBaseSwitch.execute();
+
 
     }
 
@@ -186,7 +194,7 @@ public class BaseSwitchUtil {
                         } else {
 
                             mContext.startActivity(new Intent(mContext, ForceUpdateActivity.class)
-                                    .putExtra("downLoadUrl",avObjects.get(0).getString("downloadUrl"))
+                                    .putExtra("downLoadUrl", avObjects.get(0).getString("downloadUrl"))
                             );
 
                         }
@@ -195,7 +203,7 @@ public class BaseSwitchUtil {
                     } else {
 
                         mContext.startActivity(new Intent(mContext, mClass));
-                        mActivity.finish();
+                        Finish();
 
                     }
 
@@ -207,7 +215,7 @@ public class BaseSwitchUtil {
             public void onError(Throwable e) {
 
                 mContext.startActivity(new Intent(mContext, mClass));
-                mActivity.finish();
+                Finish();
 
             }
 
@@ -216,6 +224,15 @@ public class BaseSwitchUtil {
 
             }
         });
+
+    }
+
+    private static void Finish(){
+
+        if(Preferences.getBoolean("Privacy",true)){
+            mContext.startActivity(new Intent(mContext, PrivacyDialogBaseActivity.class));
+        }
+        mActivity.finish();
 
     }
 

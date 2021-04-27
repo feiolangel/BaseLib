@@ -21,6 +21,19 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
 
+        <!--用户协议页面-->
+        <activity
+            android:name="com.amin.baselib.activity.WebViewNoHideBaseActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <!--隐私协议弹窗-->
+        <activity
+            android:name="com.amin.baselib.activity.PrivacyDialogBaseActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:theme="@style/DialogActivity_middle" />
+
         <!--兼容7.x-->
         <provider
             android:name="androidx.core.content.FileProvider"
