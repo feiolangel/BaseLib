@@ -33,7 +33,7 @@ public class BaseTipDialog extends Dialog implements TextView.OnClickListener {
 
     public BaseTipDialog(Context context) {
 
-        super(context);
+        super(context, R.style.AppDialog);
 
         this.context = context;
 
@@ -75,7 +75,7 @@ public class BaseTipDialog extends Dialog implements TextView.OnClickListener {
 
                 //EventBus提示，发送eventmessage
                 case 666:
-                    
+
                     break;
 
 
