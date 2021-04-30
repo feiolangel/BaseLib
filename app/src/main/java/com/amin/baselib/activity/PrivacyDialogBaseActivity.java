@@ -89,6 +89,7 @@ public class PrivacyDialogBaseActivity extends AppCompatActivity implements View
 
         if (id == R.id.tv_refuse) {
 
+            Preferences.edit().putBoolean("Privacy",true).commit();
             BaseCommonUtils.exitApp(this);
 
 //            System.exit(0);
@@ -96,7 +97,6 @@ public class PrivacyDialogBaseActivity extends AppCompatActivity implements View
         } else if (id == R.id.tv_confirm) {
 
             Preferences.edit().putBoolean("Privacy",false).commit();
-
             finish();
 
         }
