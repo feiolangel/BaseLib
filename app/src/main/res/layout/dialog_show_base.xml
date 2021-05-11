@@ -4,11 +4,11 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
         android:minHeight="160dp"
         android:orientation="vertical"
         >
@@ -22,8 +22,8 @@
             android:gravity="center"
             android:includeFontPadding="false"
             android:minHeight="120dp"
-            android:padding="20px"
-            android:text=""
+            android:padding="20dp"
+            android:text="您尚未提供拍照权限，相机功能无法正常使用，请您重新启动应用，授权拍照权限或于设置中手动开启拍照权限后使用"
             android:textColor="#4d4d4d"
             android:textSize="18dp"/>
 
@@ -63,6 +63,8 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>

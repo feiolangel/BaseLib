@@ -1,5 +1,6 @@
 package com.amin.baselib.activity;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.amin.baselib.R;
 import com.amin.baselib.utils.BaseCommonUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 /**
@@ -60,7 +64,7 @@ public class PrivacyDialogBaseActivity extends AppCompatActivity implements View
             @Override
             public void onClick(@NonNull View widget) {
 
-                startActivity(new Intent(PrivacyDialogBaseActivity.this, WebViewNoHideBaseActivity.class)
+                startActivity(new Intent(PrivacyDialogBaseActivity.this,WebViewNoHideBaseActivity.class)
                         .putExtra("url", "file:///android_asset/privacy.html")
                         .putExtra("title", "服务协议和隐私政策")
                 );
@@ -89,7 +93,6 @@ public class PrivacyDialogBaseActivity extends AppCompatActivity implements View
 
         if (id == R.id.tv_refuse) {
 
-            Preferences.edit().putBoolean("Privacy",true).commit();
             BaseCommonUtils.exitApp(this);
 
 //            System.exit(0);
@@ -97,6 +100,7 @@ public class PrivacyDialogBaseActivity extends AppCompatActivity implements View
         } else if (id == R.id.tv_confirm) {
 
             Preferences.edit().putBoolean("Privacy",false).commit();
+
             finish();
 
         }
