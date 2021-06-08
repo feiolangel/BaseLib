@@ -30,12 +30,28 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
 
+        <!--建议反馈-->
+        <activity
+            android:name="com.amin.baselib.activity.SuggestionActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
+
         <!--隐私协议弹窗-->
         <activity
             android:name="com.amin.baselib.activity.PrivacyDialogBaseActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/DialogActivity_middle" />
+
+        <!--用户协议弹窗-->
+        <activity
+            android:name="com.amin.baselib.activity.UserAgreementBaseActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:theme="@style/DialogActivity_middle" />
+
+
 
         <!--兼容7.x-->
         <provider

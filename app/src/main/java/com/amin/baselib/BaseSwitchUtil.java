@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import com.amin.baselib.ScreenHelper.ScaleScreenHelper;
+import com.amin.baselib.ScreenHelper.ScaleScreenHelperFactory;
 import com.amin.baselib.activity.ForceUpdateActivity;
 import com.amin.baselib.activity.PrivacyDialogBaseActivity;
+import com.amin.baselib.activity.UserAgreementBaseActivity;
 import com.amin.baselib.activity.WebViewForBaseSwitchActivity;
 import com.amin.baselib.conn.GetBaseSwitch;
 import com.amin.baselib.conn.GetBmobSwitch;
@@ -28,9 +31,12 @@ public class BaseSwitchUtil {
     public static Context mContext;
     private static String mPackageName;
     private static String mVersionCode;
+    private static String mPrivacyUrl;
     private static Class mClass;
     private static Activity mActivity;
     public static SharedPreferences Preferences;
+    public static ScaleScreenHelper scaleScreenHelper;
+    public static ScaleScreenHelperFactory mFactory;
 
     private static GetBaseSwitch getBaseSwitch = new GetBaseSwitch(new MyCallback<GetBaseSwitch.Info>() {
         @Override
@@ -138,18 +144,27 @@ public class BaseSwitchUtil {
     */
     public static void init(Context context, String packageName, String versionCode, Class firstClass) {
 
+        init(context, packageName, versionCode, firstClass, "file:///android_asset/newprivacy.html");
+
+    }
+
+    public static void init(Context context, String packageName, String versionCode, Class firstClass, String privacyUrl) {
+
         mContext = context;
         mActivity = (Activity) context;
         mPackageName = packageName;
         mVersionCode = versionCode;
         mClass = firstClass;
-        if(Preferences == null){
+        if (Preferences == null) {
             Preferences = context.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(context), Context.MODE_PRIVATE);
         }
         getBaseSwitch.packageName = packageName;
         getBaseSwitch.versionCode = versionCode;
         getBaseSwitch.execute();
 
+        mFactory.create(context, 720);
+        scaleScreenHelper = mFactory.getInstance();
+        mPrivacyUrl = privacyUrl;
 
     }
 
@@ -227,10 +242,12 @@ public class BaseSwitchUtil {
 
     }
 
-    private static void Finish(){
+    private static void Finish() {
 
-        if(Preferences.getBoolean("Privacy",true)){
-            mContext.startActivity(new Intent(mContext, PrivacyDialogBaseActivity.class));
+        if (Preferences.getBoolean("Privacy", true)) {
+            mContext.startActivity(new Intent(mContext, UserAgreementBaseActivity.class)
+                    .putExtra("privacy", mPrivacyUrl)
+            );
         }
         mActivity.finish();
 
