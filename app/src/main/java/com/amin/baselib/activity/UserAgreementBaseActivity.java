@@ -37,7 +37,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_privacy_dialog_base);
+        setContentView(R.layout.activity_user_agreement_base);
 
         mPrivacyUrl = getIntent().getStringExtra("privacy");
 
