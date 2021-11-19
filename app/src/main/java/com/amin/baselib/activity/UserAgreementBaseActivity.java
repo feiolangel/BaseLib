@@ -32,6 +32,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
     public static SharedPreferences Preferences;
 
     private String mPrivacyUrl;
+    private String mAgreementUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
         setContentView(R.layout.activity_user_agreement_base);
 
         mPrivacyUrl = getIntent().getStringExtra("privacy");
+        mAgreementUrl = getIntent().getStringExtra("agreement");
 
         this.setFinishOnTouchOutside(false);
 
@@ -71,7 +73,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
             public void onClick(@NonNull View widget) {
 
                 startActivity(new Intent(UserAgreementBaseActivity.this,WebViewNoHideBaseActivity.class)
-                        .putExtra("url", mPrivacyUrl)
+                        .putExtra("url",mAgreementUrl)
                         .putExtra("title", "用户协议")
                 );
 
