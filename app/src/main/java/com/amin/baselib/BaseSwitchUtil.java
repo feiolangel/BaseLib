@@ -150,6 +150,12 @@ public class BaseSwitchUtil {
 
     }
 
+    public static void init(Context context, String packageName,String tag, Class firstClass,String privacyUrl) {
+
+        init(context, packageName, tag, firstClass, privacyUrl,"file:///android_asset/useragreement.html");
+
+    }
+
     public static void init(Context context, String packageName,String tag, Class firstClass, String privacyUrl,String useragreementUrl) {
 
         mContext = context;
