@@ -71,7 +71,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
             public void onClick(@NonNull View widget) {
 
                 startActivity(new Intent(UserAgreementBaseActivity.this,WebViewNoHideBaseActivity.class)
-                        .putExtra("url", "file:///android_asset/privacy.html")
+                        .putExtra("url", mPrivacyUrl)
                         .putExtra("title", "用户协议")
                 );
 

@@ -30,8 +30,9 @@ public class BaseSwitchUtil {
 
     public static Context mContext;
     private static String mPackageName;
-    private static String mVersionCode;
+    private static String mTag;
     private static String mPrivacyUrl;
+    private static String mUserAgreementUrl;
     private static Class mClass;
     private static Activity mActivity;
     public static SharedPreferences Preferences;
@@ -54,7 +55,7 @@ public class BaseSwitchUtil {
 
                     getBmobSwitch.url = info.url;
                     getBmobSwitch.packageName = mPackageName;
-                    getBmobSwitch.versionCode = mVersionCode;
+                    getBmobSwitch.tag = mTag;
                     getBmobSwitch.execute();
 
                 }
@@ -139,32 +140,34 @@ public class BaseSwitchUtil {
         }
     });
 
+
     /*
     基本接口
     */
-    public static void init(Context context, String packageName, String versionCode, Class firstClass) {
+    public static void init(Context context, String packageName,String tag, Class firstClass) {
 
-        init(context, packageName, versionCode, firstClass, "file:///android_asset/newprivacy.html");
+        init(context, packageName, tag, firstClass, "file:///android_asset/newprivacy.html","file:///android_asset/useragreement.html");
 
     }
 
-    public static void init(Context context, String packageName, String versionCode, Class firstClass, String privacyUrl) {
+    public static void init(Context context, String packageName,String tag, Class firstClass, String privacyUrl,String useragreementUrl) {
 
         mContext = context;
         mActivity = (Activity) context;
         mPackageName = packageName;
-        mVersionCode = versionCode;
+        mTag = tag;
         mClass = firstClass;
         if (Preferences == null) {
             Preferences = context.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(context), Context.MODE_PRIVATE);
         }
         getBaseSwitch.packageName = packageName;
-        getBaseSwitch.versionCode = versionCode;
+        getBaseSwitch.tag = tag;
         getBaseSwitch.execute();
 
         mFactory.create(context, 720);
         scaleScreenHelper = mFactory.getInstance();
         mPrivacyUrl = privacyUrl;
+        mUserAgreementUrl = useragreementUrl;
 
     }
 
@@ -172,7 +175,7 @@ public class BaseSwitchUtil {
 
         AVQuery<AVObject> query = new AVQuery<>("Package");
         query.whereEqualTo("packageName", mPackageName);
-        query.whereEqualTo("code", mVersionCode);
+        query.whereEqualTo("tag", mTag);
         query.findInBackground().subscribe(new Observer<List<AVObject>>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -247,6 +250,7 @@ public class BaseSwitchUtil {
         if (Preferences.getBoolean("Privacy", true)) {
             mContext.startActivity(new Intent(mContext, UserAgreementBaseActivity.class)
                     .putExtra("privacy", mPrivacyUrl)
+                    .putExtra("agreement", mUserAgreementUrl)
             );
         }
         mActivity.finish();

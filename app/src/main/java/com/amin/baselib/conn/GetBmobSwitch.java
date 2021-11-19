@@ -17,7 +17,7 @@ public class GetBmobSwitch extends HttpDynamicUrlGet<GetBmobSwitch.Info> {
 
     public String packageName = "";
 
-    public String versionCode = "";
+    public String tag = "";
 
     public GetBmobSwitch(MyCallback<Info> asyCallBack) {
 

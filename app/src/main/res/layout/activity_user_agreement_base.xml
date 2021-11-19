@@ -41,8 +41,8 @@
             android:layout_height="80px"
             android:gravity="center"
             android:text="暂不使用"
-            android:textColor="#888888"
-            android:textSize="24px" />
+            android:textColor="#333333"
+            android:textSize="28px" />
 
         <TextView
             android:id="@+id/tv_confirm"
