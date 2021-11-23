@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.amin.baselib.R;
 import com.amin.baselib.app.MyActivity;
@@ -33,6 +32,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
 
     private String mPrivacyUrl;
     private String mAgreementUrl;
+    private String mShowText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
 
         mPrivacyUrl = getIntent().getStringExtra("privacy");
         mAgreementUrl = getIntent().getStringExtra("agreement");
+        mShowText = getIntent().getStringExtra("showText");
 
         this.setFinishOnTouchOutside(false);
 
@@ -53,6 +54,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
 
         tv_privacy = findViewById(R.id.tv_privacy);
         tv_explain = findViewById(R.id.tv_explain);
+        tv_explain.setText(mShowText);
         tv_explain.setMovementMethod(ScrollingMovementMethod.getInstance());
         (tv_refuse = findViewById(R.id.tv_refuse)).setOnClickListener(this);
         (tv_confirm = findViewById(R.id.tv_confirm)).setOnClickListener(this);
