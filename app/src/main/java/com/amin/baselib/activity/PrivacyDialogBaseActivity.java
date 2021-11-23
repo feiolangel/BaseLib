@@ -65,7 +65,7 @@ public class PrivacyDialogBaseActivity extends AppCompatActivity implements View
             public void onClick(@NonNull View widget) {
 
                 startActivity(new Intent(PrivacyDialogBaseActivity.this,WebViewNoHideBaseActivity.class)
-                        .putExtra("url", "file:///android_asset/useragreement.html")
+                        .putExtra("url", "file:///android_asset/useragreementbase.html")
                         .putExtra("title", "服务协议和隐私政策")
                 );
 

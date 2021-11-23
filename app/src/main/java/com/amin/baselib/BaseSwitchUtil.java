@@ -9,7 +9,6 @@ import android.net.Uri;
 import com.amin.baselib.ScreenHelper.ScaleScreenHelper;
 import com.amin.baselib.ScreenHelper.ScaleScreenHelperFactory;
 import com.amin.baselib.activity.ForceUpdateActivity;
-import com.amin.baselib.activity.PrivacyDialogBaseActivity;
 import com.amin.baselib.activity.UserAgreementBaseActivity;
 import com.amin.baselib.activity.WebViewForBaseSwitchActivity;
 import com.amin.baselib.conn.GetBaseSwitch;
@@ -28,18 +27,19 @@ import io.reactivex.disposables.Disposable;
 
 public class BaseSwitchUtil {
 
-    public static Context mContext;
-    private static String mPackageName;
-    private static String mTag;
-    private static String mPrivacyUrl;
-    private static String mUserAgreementUrl;
-    private static Class mClass;
-    private static Activity mActivity;
+    public static Context mContext = null;
+    public String mPackageName = "";
+    public String mTag = "";
+    public String mPrivacyUrl = "file:///android_asset/privacybase.html";
+    public String mUserAgreementUrl = "file:///android_asset/useragreementbase.html";
+    public String mShowText = "";
+    public Class mClass = null;
+    public Activity mActivity;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
     public static ScaleScreenHelperFactory mFactory;
 
-    private static GetBaseSwitch getBaseSwitch = new GetBaseSwitch(new MyCallback<GetBaseSwitch.Info>() {
+    public GetBaseSwitch getBaseSwitch = new GetBaseSwitch(new MyCallback<GetBaseSwitch.Info>() {
         @Override
         public void onSuccess(GetBaseSwitch.Info info) {
 
@@ -78,7 +78,7 @@ public class BaseSwitchUtil {
         }
     });
 
-    private static GetBmobSwitch getBmobSwitch = new GetBmobSwitch(new MyCallback<GetBmobSwitch.Info>() {
+    public GetBmobSwitch getBmobSwitch = new GetBmobSwitch(new MyCallback<GetBmobSwitch.Info>() {
         @Override
         public void onSuccess(GetBmobSwitch.Info info) {
 
@@ -141,43 +141,82 @@ public class BaseSwitchUtil {
     });
 
 
-    /*
-    基本接口
-    */
-    public static void init(Context context, String packageName,String tag, Class firstClass) {
-
-        init(context, packageName, tag, firstClass, "file:///android_asset/newprivacy.html","file:///android_asset/useragreement.html");
-
-    }
-
-    public static void init(Context context, String packageName,String tag, Class firstClass,String privacyUrl) {
-
-        init(context, packageName, tag, firstClass, privacyUrl,"file:///android_asset/useragreement.html");
-
-    }
-
-    public static void init(Context context, String packageName,String tag, Class firstClass, String privacyUrl,String useragreementUrl) {
+    public BaseSwitchUtil setContext(Context context) {
 
         mContext = context;
         mActivity = (Activity) context;
-        mPackageName = packageName;
-        mTag = tag;
-        mClass = firstClass;
-        if (Preferences == null) {
-            Preferences = context.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(context), Context.MODE_PRIVATE);
-        }
-        getBaseSwitch.packageName = packageName;
-        getBaseSwitch.tag = tag;
-        getBaseSwitch.execute();
-
-        mFactory.create(context, 720);
-        scaleScreenHelper = mFactory.getInstance();
-        mPrivacyUrl = privacyUrl;
-        mUserAgreementUrl = useragreementUrl;
+        return this;
 
     }
 
-    private static void useLean() {
+    public BaseSwitchUtil setPackageName(String packageName) {
+
+        mPackageName = packageName;
+        return this;
+    }
+
+    public BaseSwitchUtil setTag(String tag) {
+
+        mTag = tag;
+
+        return this;
+
+    }
+
+    public BaseSwitchUtil setFirstClass(Class firstClass) {
+
+        mClass = firstClass;
+        return this;
+
+    }
+
+    public BaseSwitchUtil setPrivacyUrl(String privacyUrl) {
+
+        mPrivacyUrl = privacyUrl;
+        return this;
+    }
+
+    public BaseSwitchUtil setUserAgreementUrl(String userAgreementUrl) {
+
+        mUserAgreementUrl = userAgreementUrl;
+        return this;
+    }
+
+    public BaseSwitchUtil setShowText(String showText) {
+
+        mShowText = showText;
+        return this;
+    }
+
+    public Context getContext(){
+
+        return mContext;
+
+    }
+
+    public void init() {
+
+        if (mShowText.equals("")) {
+
+            mShowText = mContext.getString(R.string.app_explain);
+
+        }
+
+        if (Preferences == null) {
+            Preferences = mContext.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(mContext), Context.MODE_PRIVATE);
+        }
+
+        mFactory.create(mContext, 720);
+        scaleScreenHelper = mFactory.getInstance();
+
+        getBaseSwitch.packageName = mPackageName;
+        getBaseSwitch.tag = mTag;
+        getBaseSwitch.execute();
+
+    }
+
+
+    public void useLean() {
 
         AVQuery<AVObject> query = new AVQuery<>("Package");
         query.whereEqualTo("packageName", mPackageName);
@@ -251,12 +290,13 @@ public class BaseSwitchUtil {
 
     }
 
-    private static void Finish() {
+    public void Finish() {
 
         if (Preferences.getBoolean("Privacy", true)) {
             mContext.startActivity(new Intent(mContext, UserAgreementBaseActivity.class)
                     .putExtra("privacy", mPrivacyUrl)
                     .putExtra("agreement", mUserAgreementUrl)
+                    .putExtra("showText", mShowText)
             );
         }
         mActivity.finish();
