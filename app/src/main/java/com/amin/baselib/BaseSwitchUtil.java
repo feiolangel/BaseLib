@@ -214,8 +214,17 @@ public class BaseSwitchUtil {
             Preferences = mContext.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(mContext), Context.MODE_PRIVATE);
         }
 
-        mFactory.create(mContext, 720);
-        scaleScreenHelper = mFactory.getInstance();
+        if(mPortrait) {
+
+            mFactory.create(mContext, 720);
+            scaleScreenHelper = mFactory.getInstance();
+
+        }else{
+
+            mFactory.create(mContext, 1280);
+            scaleScreenHelper = mFactory.getInstance();
+
+        }
 
         getBaseSwitch.packageName = mPackageName;
         getBaseSwitch.tag = mTag;
