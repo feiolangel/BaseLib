@@ -9,7 +9,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/RN/BaseLib/app/src/main/res/layout/activity_privacy_dialog_base.xml" value="0.27486559139784944" />
+        <entry key="..\:/RN/BaseLib/app/src/main/res/layout/activity_privacy_landspace_dialog_base.xml" value="0.5080645161290323" />
         <entry key="..\:/RN/BaseLib/app/src/main/res/layout/activity_user_agreement_base.xml" value="0.536" />
+        <entry key="..\:/RN/BaseLib/app/src/main/res/layout/activity_user_agreement_landspace_base.xml" value="0.5080645161290323" />
       </map>
     </option>
   </component>

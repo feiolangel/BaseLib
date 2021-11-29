@@ -10,6 +10,7 @@ import com.amin.baselib.ScreenHelper.ScaleScreenHelper;
 import com.amin.baselib.ScreenHelper.ScaleScreenHelperFactory;
 import com.amin.baselib.activity.ForceUpdateActivity;
 import com.amin.baselib.activity.UserAgreementBaseActivity;
+import com.amin.baselib.activity.UserAgreementLandscapeBaseActivity;
 import com.amin.baselib.activity.WebViewForBaseSwitchActivity;
 import com.amin.baselib.conn.GetBaseSwitch;
 import com.amin.baselib.conn.GetBmobSwitch;
@@ -35,6 +36,7 @@ public class BaseSwitchUtil {
     public String mShowText = "";
     public Class mClass = null;
     public Activity mActivity;
+    public boolean mPortrait = true;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
     public static ScaleScreenHelperFactory mFactory;
@@ -194,6 +196,12 @@ public class BaseSwitchUtil {
 
     }
 
+    public BaseSwitchUtil setPortrait(boolean portrait) {
+
+        mPortrait = portrait;
+        return this;
+    }
+
     public void init() {
 
         if (mShowText.equals("")) {
@@ -292,8 +300,20 @@ public class BaseSwitchUtil {
 
     public void Finish() {
 
+        Intent intent;
+
+        if(mPortrait){
+
+            intent = new Intent(mContext, UserAgreementBaseActivity.class);
+
+        }else {
+
+            intent = new Intent(mContext, UserAgreementLandscapeBaseActivity.class);
+
+        }
+
         if (Preferences.getBoolean("Privacy", true)) {
-            mContext.startActivity(new Intent(mContext, UserAgreementBaseActivity.class)
+            mContext.startActivity(intent
                     .putExtra("privacy", mPrivacyUrl)
                     .putExtra("agreement", mUserAgreementUrl)
                     .putExtra("showText", mShowText)
