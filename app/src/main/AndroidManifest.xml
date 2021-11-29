@@ -27,6 +27,13 @@
         <activity
             android:name="com.amin.baselib.activity.WebViewNoHideBaseActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity
+            android:name="com.amin.baselib.activity.WebViewNoHideLandscapeBaseActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!--建议反馈-->

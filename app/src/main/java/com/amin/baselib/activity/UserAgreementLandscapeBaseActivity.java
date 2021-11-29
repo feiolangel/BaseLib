@@ -34,6 +34,8 @@ public class UserAgreementLandscapeBaseActivity extends MyActivity implements Vi
     private String mAgreementUrl;
     private String mShowText;
 
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +76,7 @@ public class UserAgreementLandscapeBaseActivity extends MyActivity implements Vi
             @Override
             public void onClick(@NonNull View widget) {
 
-                startActivity(new Intent(UserAgreementLandscapeBaseActivity.this,WebViewNoHideBaseActivity.class)
+                startActivity(new Intent(UserAgreementLandscapeBaseActivity.this,WebViewNoHideLandscapeBaseActivity.class)
                         .putExtra("url",mAgreementUrl)
                         .putExtra("title", "用户协议")
                 );
@@ -92,7 +94,7 @@ public class UserAgreementLandscapeBaseActivity extends MyActivity implements Vi
             @Override
             public void onClick(@NonNull View widget) {
 
-                startActivity(new Intent(UserAgreementLandscapeBaseActivity.this,WebViewNoHideBaseActivity.class)
+                startActivity(new Intent(UserAgreementLandscapeBaseActivity.this,WebViewNoHideLandscapeBaseActivity.class)
                         .putExtra("url", mPrivacyUrl)
                         .putExtra("title", "隐私政策")
                 );
