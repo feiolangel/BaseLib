@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import com.amin.baselib.ScreenHelper.ScaleScreenHelper;
 import com.amin.baselib.ScreenHelper.ScaleScreenHelperFactory;
@@ -36,12 +37,12 @@ public class BaseSwitchUtil {
     public String mPrivacyUrl = "file:///android_asset/privacybase.html";
     public String mUserAgreementUrl = "file:///android_asset/useragreementbase.html";
     public String mShowText = "";
-    public Class mClass = null;
-    public Activity mActivity;
+    public static Class mClass = null;
+    public static Activity mActivity;
     public boolean mPortrait = true;
-    private boolean useIntent = false;
+    private static boolean useIntent = false;
     private boolean mJump = true;
-    private Intent mIntent;
+    private static Intent mIntent;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
     public static ScaleScreenHelperFactory mFactory;
@@ -322,66 +323,93 @@ public class BaseSwitchUtil {
 
     public void Finish() {
 
-        if(mJump){
+        if(Preferences.getBoolean("Privacy", true)){
 
-            startFirst();
-            startPrivacy();
-            mActivity.finish();
+            Intent intent;
+            if (mPortrait) {
+                intent = new Intent(mContext, UserAgreementBaseActivity.class);
+            } else {
+                intent = new Intent(mContext, UserAgreementLandscapeBaseActivity.class);
+            }
+            intent.putExtra("privacy", mPrivacyUrl)
+                    .putExtra("agreement", mUserAgreementUrl)
+                    .putExtra("showText", mShowText);
+            if(mJump){
+
+                startFirst();
+                mContext.startActivity(intent);
+                mActivity.finish();
+
+            }else {
+
+                intent.putExtra("jump", false);
+                mContext.startActivity(intent);
+
+            }
+
 
         }else {
 
-            startPrivacy();
+            startFirst();
 
         }
 
     }
 
-    private void startPrivacy() {
+    public static void toFirst(){
 
-        Intent intent;
+        mActivity.finish();
+        startFirst();
 
-        if (mPortrait) {
+    }
 
-            intent = new Intent(mContext, UserAgreementBaseActivity.class);
+//    private void startPrivacy() {
+//
+//        Intent intent;
+//
+//        if (mPortrait) {
+//
+//            intent = new Intent(mContext, UserAgreementBaseActivity.class);
+//
+//        } else {
+//
+//            intent = new Intent(mContext, UserAgreementLandscapeBaseActivity.class);
+//
+//        }
+//
+//        intent.putExtra("privacy", mPrivacyUrl)
+//                .putExtra("agreement", mUserAgreementUrl)
+//                .putExtra("showText", mShowText);
+//
+//
+//        if (Preferences.getBoolean("Privacy", true)) {
+//
+//            if(mJump) {
+//
+//                mContext.startActivity(intent);
+//
+//            }else {
+//
+//                intent.putExtra("junm",false);
+//                mContext.startActivity(intent);
+//
+//            }
+//
+//        }else {
+//
+//            if(!mJump){
+//
+//                startFirst();
+//
+//            }
+//
+//        }
+//
+//}
 
-        } else {
-
-            intent = new Intent(mContext, UserAgreementLandscapeBaseActivity.class);
-
-        }
-
-        intent.putExtra("privacy", mPrivacyUrl)
-                .putExtra("agreement", mUserAgreementUrl)
-                .putExtra("showText", mShowText);
 
 
-        if (Preferences.getBoolean("Privacy", true)) {
-
-            if(mJump) {
-
-                mContext.startActivity(intent);
-
-            }else {
-
-                mActivity.startActivityForResult(intent, 123451);
-
-            }
-
-        }else {
-
-            if(!mJump){
-
-                startFirst();
-
-            }
-
-        }
-
-}
-
-
-
-    private void startFirst() {
+    private static void startFirst() {
 
         if (useIntent) {
 

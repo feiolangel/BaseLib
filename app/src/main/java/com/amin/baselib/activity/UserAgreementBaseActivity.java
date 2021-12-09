@@ -1,5 +1,6 @@
 package com.amin.baselib.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.amin.baselib.BaseSwitchUtil;
 import com.amin.baselib.R;
 import com.amin.baselib.app.MyActivity;
 import com.amin.baselib.utils.BaseCommonUtils;
@@ -33,6 +35,8 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
     private String mPrivacyUrl;
     private String mAgreementUrl;
     private String mShowText;
+    private boolean mJump;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
         mPrivacyUrl = getIntent().getStringExtra("privacy");
         mAgreementUrl = getIntent().getStringExtra("agreement");
         mShowText = getIntent().getStringExtra("showText");
-
+        mJump = getIntent().getBooleanExtra("jump",true);
         this.setFinishOnTouchOutside(false);
 
         if(Preferences == null){
@@ -130,6 +134,11 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
 
             Preferences.edit().putBoolean("Privacy",false).commit();
 
+            if(!mJump){
+
+                BaseSwitchUtil.toFirst();
+
+            }
             finish();
 
         }

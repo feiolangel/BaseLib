@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.amin.baselib.BaseSwitchUtil;
 import com.amin.baselib.R;
 import com.amin.baselib.app.MyActivity;
 import com.amin.baselib.utils.BaseCommonUtils;
@@ -33,8 +34,7 @@ public class UserAgreementLandscapeBaseActivity extends MyActivity implements Vi
     private String mPrivacyUrl;
     private String mAgreementUrl;
     private String mShowText;
-
-    private Intent intent;
+    private boolean mJump;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class UserAgreementLandscapeBaseActivity extends MyActivity implements Vi
         mPrivacyUrl = getIntent().getStringExtra("privacy");
         mAgreementUrl = getIntent().getStringExtra("agreement");
         mShowText = getIntent().getStringExtra("showText");
+        mJump = getIntent().getBooleanExtra("jump",true);
 
         this.setFinishOnTouchOutside(false);
 
@@ -131,6 +132,12 @@ public class UserAgreementLandscapeBaseActivity extends MyActivity implements Vi
         } else if (id == R.id.tv_confirm) {
 
             Preferences.edit().putBoolean("Privacy",false).commit();
+
+            if(!mJump){
+
+                BaseSwitchUtil.toFirst();
+
+            }
 
             finish();
 
