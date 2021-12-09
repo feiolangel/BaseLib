@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.amin.baselib.ScreenHelper.ScaleScreenHelper;
 import com.amin.baselib.ScreenHelper.ScaleScreenHelperFactory;
@@ -17,6 +18,7 @@ import com.amin.baselib.conn.GetBmobSwitch;
 import com.amin.baselib.http.MyCallback;
 import com.amin.baselib.utils.BaseCommonUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import cn.leancloud.AVOSCloud;
@@ -38,6 +40,7 @@ public class BaseSwitchUtil {
     public Activity mActivity;
     public boolean mPortrait = true;
     private boolean useIntent = false;
+    private boolean unJump = false;
     private Intent mIntent;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
@@ -66,7 +69,6 @@ public class BaseSwitchUtil {
 
             } else {
 
-                startFirst();
                 Finish();
 
             }
@@ -76,7 +78,6 @@ public class BaseSwitchUtil {
         @Override
         public void onFail(String msg) {
 
-            startFirst();
             Finish();
 
         }
@@ -120,7 +121,6 @@ public class BaseSwitchUtil {
 
                 } else {
 
-                    startFirst();
                     Finish();
 
                 }
@@ -128,7 +128,6 @@ public class BaseSwitchUtil {
 
             } else {
 
-                startFirst();
                 Finish();
 
             }
@@ -138,7 +137,6 @@ public class BaseSwitchUtil {
         @Override
         public void onFail(String msg) {
 
-            startFirst();
             Finish();
 
         }
@@ -201,6 +199,13 @@ public class BaseSwitchUtil {
     public BaseSwitchUtil setPortrait(boolean portrait) {
 
         mPortrait = portrait;
+        return this;
+
+    }
+
+    public BaseSwitchUtil setJump(boolean jump) {
+
+        unJump = jump;
         return this;
 
     }
@@ -289,11 +294,9 @@ public class BaseSwitchUtil {
                             );
 
                         }
-                        mActivity.finish();
 
                     } else {
 
-                        startFirst();
                         Finish();
 
                     }
@@ -305,7 +308,6 @@ public class BaseSwitchUtil {
             @Override
             public void onError(Throwable e) {
 
-                startFirst();
                 Finish();
 
             }
@@ -320,6 +322,22 @@ public class BaseSwitchUtil {
 
     public void Finish() {
 
+        if(unJump){
+
+            startPrivacy();
+
+        }else {
+
+            startFirst();
+            startPrivacy();
+            mActivity.finish();
+
+        }
+
+    }
+
+    private void startPrivacy() {
+
         Intent intent;
 
         if (mPortrait) {
@@ -332,24 +350,36 @@ public class BaseSwitchUtil {
 
         }
 
+        intent.putExtra("privacy", mPrivacyUrl)
+                .putExtra("agreement", mUserAgreementUrl)
+                .putExtra("showText", mShowText);
+
+
         if (Preferences.getBoolean("Privacy", true)) {
-            mContext.startActivity(intent
-                    .putExtra("privacy", mPrivacyUrl)
-                    .putExtra("agreement", mUserAgreementUrl)
-                    .putExtra("showText", mShowText)
-            );
+
+            if(unJump) {
+
+                mActivity.startActivityForResult(intent, 100);
+
+            }else {
+
+                mContext.startActivity(intent);
+
+            }
+
         }
-        mActivity.finish();
 
-    }
+}
 
-    private void startFirst(){
 
-        if(useIntent){
+
+    private void startFirst() {
+
+        if (useIntent) {
 
             mContext.startActivity(mIntent);
 
-        }else {
+        } else {
 
             mContext.startActivity(new Intent(mContext, mClass));
         }
