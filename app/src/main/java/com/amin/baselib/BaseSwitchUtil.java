@@ -40,7 +40,7 @@ public class BaseSwitchUtil {
     public Activity mActivity;
     public boolean mPortrait = true;
     private boolean useIntent = false;
-    private boolean unJump = false;
+    private boolean mJump = true;
     private Intent mIntent;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
@@ -205,7 +205,7 @@ public class BaseSwitchUtil {
 
     public BaseSwitchUtil setJump(boolean jump) {
 
-        unJump = jump;
+        mJump = jump;
         return this;
 
     }
@@ -322,15 +322,15 @@ public class BaseSwitchUtil {
 
     public void Finish() {
 
-        if(unJump){
-
-            startPrivacy();
-
-        }else {
+        if(mJump){
 
             startFirst();
             startPrivacy();
             mActivity.finish();
+
+        }else {
+
+            startPrivacy();
 
         }
 
@@ -357,13 +357,21 @@ public class BaseSwitchUtil {
 
         if (Preferences.getBoolean("Privacy", true)) {
 
-            if(unJump) {
+            if(mJump) {
 
-                mActivity.startActivityForResult(intent, 123451);
+                mContext.startActivity(intent);
 
             }else {
 
-                mContext.startActivity(intent);
+                mActivity.startActivityForResult(intent, 123451);
+
+            }
+
+        }else {
+
+            if(!mJump){
+
+                startFirst();
 
             }
 
