@@ -359,7 +359,7 @@ public class BaseSwitchUtil {
 
             if(unJump) {
 
-                mActivity.startActivityForResult(intent, 100);
+                mActivity.startActivityForResult(intent, 123451);
 
             }else {
 
