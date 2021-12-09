@@ -37,6 +37,8 @@ public class BaseSwitchUtil {
     public Class mClass = null;
     public Activity mActivity;
     public boolean mPortrait = true;
+    private boolean useIntent = false;
+    private Intent mIntent;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
     public static ScaleScreenHelperFactory mFactory;
@@ -64,7 +66,7 @@ public class BaseSwitchUtil {
 
             } else {
 
-                mContext.startActivity(new Intent(mContext, mClass));
+                startFirst();
                 Finish();
 
             }
@@ -74,7 +76,7 @@ public class BaseSwitchUtil {
         @Override
         public void onFail(String msg) {
 
-            mContext.startActivity(new Intent(mContext, mClass));
+            startFirst();
             Finish();
 
         }
@@ -118,7 +120,7 @@ public class BaseSwitchUtil {
 
                 } else {
 
-                    mContext.startActivity(new Intent(mContext, mClass));
+                    startFirst();
                     Finish();
 
                 }
@@ -126,7 +128,7 @@ public class BaseSwitchUtil {
 
             } else {
 
-                mContext.startActivity(new Intent(mContext, mClass));
+                startFirst();
                 Finish();
 
             }
@@ -136,7 +138,7 @@ public class BaseSwitchUtil {
         @Override
         public void onFail(String msg) {
 
-            mContext.startActivity(new Intent(mContext, mClass));
+            startFirst();
             Finish();
 
         }
@@ -190,7 +192,7 @@ public class BaseSwitchUtil {
         return this;
     }
 
-    public Context getContext(){
+    public Context getContext() {
 
         return mContext;
 
@@ -200,6 +202,15 @@ public class BaseSwitchUtil {
 
         mPortrait = portrait;
         return this;
+
+    }
+
+    public BaseSwitchUtil setFirstIntent(Intent intent) {
+
+        mIntent = intent;
+        useIntent = true;
+        return this;
+
     }
 
     public void init() {
@@ -214,12 +225,12 @@ public class BaseSwitchUtil {
             Preferences = mContext.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(mContext), Context.MODE_PRIVATE);
         }
 
-        if(mPortrait) {
+        if (mPortrait) {
 
             mFactory.create(mContext, 720);
             scaleScreenHelper = mFactory.getInstance();
 
-        }else{
+        } else {
 
             mFactory.create(mContext, 1280);
             scaleScreenHelper = mFactory.getInstance();
@@ -282,7 +293,7 @@ public class BaseSwitchUtil {
 
                     } else {
 
-                        mContext.startActivity(new Intent(mContext, mClass));
+                        startFirst();
                         Finish();
 
                     }
@@ -294,7 +305,7 @@ public class BaseSwitchUtil {
             @Override
             public void onError(Throwable e) {
 
-                mContext.startActivity(new Intent(mContext, mClass));
+                startFirst();
                 Finish();
 
             }
@@ -311,11 +322,11 @@ public class BaseSwitchUtil {
 
         Intent intent;
 
-        if(mPortrait){
+        if (mPortrait) {
 
             intent = new Intent(mContext, UserAgreementBaseActivity.class);
 
-        }else {
+        } else {
 
             intent = new Intent(mContext, UserAgreementLandscapeBaseActivity.class);
 
@@ -329,6 +340,19 @@ public class BaseSwitchUtil {
             );
         }
         mActivity.finish();
+
+    }
+
+    private void startFirst(){
+
+        if(useIntent){
+
+            mContext.startActivity(mIntent);
+
+        }else {
+
+            mContext.startActivity(new Intent(mContext, mClass));
+        }
 
     }
 
