@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.amin.baselib.ScreenHelper.ScaleScreenHelper;
 import com.amin.baselib.ScreenHelper.ScaleScreenHelperFactory;
@@ -42,6 +43,7 @@ public class BaseSwitchUtil {
     public boolean mPortrait = true;
     private static boolean useIntent = false;
     private boolean mJump = true;
+    private boolean mShow = true;
     private static Intent mIntent;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
@@ -219,7 +221,16 @@ public class BaseSwitchUtil {
 
     }
 
+    public BaseSwitchUtil setShow(boolean show) {
+
+        mShow = show;
+        return this;
+
+    }
+
     public void init() {
+
+        Log.e("Setting",mPackageName+"&"+mTag);
 
         if (mShowText.equals("")) {
 
@@ -323,7 +334,7 @@ public class BaseSwitchUtil {
 
     public void Finish() {
 
-        if(Preferences.getBoolean("Privacy", true)){
+        if(Preferences.getBoolean("Privacy", true)&&mShow){
 
             Intent intent;
             if (mPortrait) {
