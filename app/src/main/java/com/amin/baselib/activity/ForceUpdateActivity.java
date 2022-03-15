@@ -1,5 +1,7 @@
 package com.amin.baselib.activity;
 
+import static com.ixuea.android.downloader.DownloadService.downloadManager;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,6 +24,10 @@ import com.downloader.OnDownloadListener;
 import com.downloader.OnProgressListener;
 import com.downloader.PRDownloader;
 import com.downloader.Progress;
+import com.ixuea.android.downloader.DownloadService;
+import com.ixuea.android.downloader.callback.DownloadListener;
+import com.ixuea.android.downloader.domain.DownloadInfo;
+import com.ixuea.android.downloader.exception.DownloadException;
 
 import java.io.File;
 
@@ -116,33 +122,88 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
 
         fileName = System.currentTimeMillis() + ".apk";
 
-        int downloadId = PRDownloader.download(downLoadUrl, dirPath, fileName)
-                .build()
-                .setOnProgressListener(new OnProgressListener() {
-                    @Override
-                    public void onProgress(Progress progress) {
+        downloadManager = DownloadService.getDownloadManager(BaseSwitchUtil.mContext.getApplicationContext());
 
-                        long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
-                        progressBar_update.setIndeterminate(false);
-                        progressBar_update.setProgress((int) progressPercent);
-                        tv_update_num.setText((int) progressPercent + "%");
-                    }
-                })
-                .start(new OnDownloadListener() {
-                    @Override
-                    public void onDownloadComplete() {
+        File targetFile = new File(dirPath,fileName);
 
-                        tv_install.setVisibility(View.VISIBLE);
+        final DownloadInfo downloadInfo = new DownloadInfo.Builder().setUrl(downLoadUrl)
+                .setPath(targetFile.getAbsolutePath())
+                .build();
 
-                        install(ForceUpdateActivity.this, dirPath + "/" + fileName);
+        downloadInfo.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onStart() {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Error error) {
+            @Override
+            public void onWaited() {
 
-                    }
-                });
+            }
+
+            @Override
+            public void onPaused() {
+
+            }
+
+            @Override
+            public void onDownloading(long progress, long size) {
+
+                long progressPercent = progress/size;
+                progressBar_update.setIndeterminate(false);
+                progressBar_update.setProgress((int) progressPercent);
+                tv_update_num.setText((int) progressPercent + "%");
+
+            }
+
+            @Override
+            public void onRemoved() {
+
+            }
+
+            @Override
+            public void onDownloadSuccess() {
+
+                tv_install.setVisibility(View.VISIBLE);
+
+                install(ForceUpdateActivity.this, dirPath + "/" + fileName);
+
+
+            }
+
+            @Override
+            public void onDownloadFailed(DownloadException e) {
+
+            }
+        });
+
+//        int downloadId = PRDownloader.download(downLoadUrl, dirPath, fileName)
+//                .build()
+//                .setOnProgressListener(new OnProgressListener() {
+//                    @Override
+//                    public void onProgress(Progress progress) {
+//
+//                        long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
+//                        progressBar_update.setIndeterminate(false);
+//                        progressBar_update.setProgress((int) progressPercent);
+//                        tv_update_num.setText((int) progressPercent + "%");
+//                    }
+//                })
+//                .start(new OnDownloadListener() {
+//                    @Override
+//                    public void onDownloadComplete() {
+//
+//                        tv_install.setVisibility(View.VISIBLE);
+//
+//                        install(ForceUpdateActivity.this, dirPath + "/" + fileName);
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Error error) {
+//
+//                    }
+//                });
 
     }
 
@@ -153,7 +214,7 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
             //判断是否是AndroidN以及更高的版本
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                Uri contentUri = FileProvider.getUriForFile(context, BaseCommonUtils.getCurrentProcessName(BaseSwitchUtil.mContext)+".provider", file);
+                Uri contentUri = FileProvider.getUriForFile(context, BaseCommonUtils.getCurrentProcessName(BaseSwitchUtil.mContext)+".baseprovider", file);
                 i.setDataAndType(contentUri, "application/vnd.android.package-archive");
             } else {
                 i.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");

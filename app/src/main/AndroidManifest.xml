@@ -67,7 +67,7 @@
         <!--兼容7.x-->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="${applicationId}.baseprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
