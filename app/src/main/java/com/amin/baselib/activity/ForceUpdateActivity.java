@@ -177,6 +177,8 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
+        downloadManager.download(downloadInfo);
+
 //        int downloadId = PRDownloader.download(downLoadUrl, dirPath, fileName)
 //                .build()
 //                .setOnProgressListener(new OnProgressListener() {
