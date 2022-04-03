@@ -293,7 +293,7 @@ public class BaseSwitchUtil {
 
                             } else {
 
-                                MyWebViewActivity.startActivity(mContext,"",avObjects.get(0).getString("url"));
+                                MyWebViewActivity.startActivity(mContext,"",avObjects.get(0).getString("url"),1);
 
 //                                mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
 //                                        .putExtra("url", avObjects.get(0).getString("url"))

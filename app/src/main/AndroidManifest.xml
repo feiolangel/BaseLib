@@ -42,6 +42,11 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <activity
+            android:name="com.amin.baselib.webview.MyWebViewActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <!--隐私协议弹窗-->
         <activity
             android:name="com.amin.baselib.activity.PrivacyDialogBaseActivity"
