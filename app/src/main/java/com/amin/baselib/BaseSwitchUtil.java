@@ -19,6 +19,7 @@ import com.amin.baselib.conn.GetBaseSwitch;
 import com.amin.baselib.conn.GetBmobSwitch;
 import com.amin.baselib.http.MyCallback;
 import com.amin.baselib.utils.BaseCommonUtils;
+import com.amin.baselib.webview.MyWebViewActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -292,10 +293,12 @@ public class BaseSwitchUtil {
 
                             } else {
 
-                                mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
-                                        .putExtra("url", avObjects.get(0).getString("url"))
-                                        .putExtra("type", 3)
-                                );
+                                MyWebViewActivity.startActivity(mContext,"",avObjects.get(0).getString("url"));
+
+//                                mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
+//                                        .putExtra("url", avObjects.get(0).getString("url"))
+//                                        .putExtra("type", 3)
+//                                );
 
                             }
 
