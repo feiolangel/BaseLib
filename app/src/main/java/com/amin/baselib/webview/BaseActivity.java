@@ -3,7 +3,6 @@ package com.amin.baselib.webview;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,8 +21,6 @@ import com.amin.baselib.R;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
-import com.yanzhenjie.permission.setting.Setting;
-
 
 import java.util.List;
 
@@ -142,12 +139,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void setPermission() {
-
         AndPermission.with(this)
                 .runtime()
                 .setting()
                 .start(REQUEST_CODE_SETTING);
-
     }
 
     @Override

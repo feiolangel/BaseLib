@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
 
-
 import com.amin.baselib.R;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;

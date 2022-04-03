@@ -43,12 +43,7 @@ import androidx.core.content.FileProvider;
 import com.amin.baselib.BaseSwitchUtil;
 import com.amin.baselib.R;
 import com.amin.baselib.utils.BaseCommonUtils;
-import com.github.lzyzsd.jsbridge.BridgeHandler;
-import com.github.lzyzsd.jsbridge.BridgeWebView;
-import com.github.lzyzsd.jsbridge.CallBackFunction;
-import com.github.lzyzsd.jsbridge.DefaultHandler;
 import com.yanzhenjie.permission.runtime.Permission;
-
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,7 +66,7 @@ import cn.finalteam.rxgalleryfinal.rxbus.event.ImageRadioResultEvent;
 public class BaseWebViewActivity extends BaseActivity {
 
     protected FrameLayout videoView;
-    protected BridgeWebView webView;
+    protected WebView webView;
     protected WebChromeClient chromeClient;
     protected WebViewClient webViewClient;
     protected ProgressBar progressBar;
@@ -96,12 +91,12 @@ public class BaseWebViewActivity extends BaseActivity {
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         videoView = (FrameLayout) findViewById(R.id.videoView);
-        webView = (BridgeWebView) findViewById(R.id.webView);
+        webView = (WebView) findViewById(R.id.webView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         if (webView != null) {
             initWebView();
             initWebChromeClient();
-//            initWebViewClient();
+            initWebViewClient();
         }
     }
 
@@ -169,48 +164,7 @@ public class BaseWebViewActivity extends BaseActivity {
             }
         });
 
-//        webView.addJavascriptInterface(new AndroidJavaScript(), "csd");
-        webView.setDefaultHandler(new DefaultHandler());
-        webView.registerHandler("getCamera", new BridgeHandler() {
-
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                Log.i("CSD", "getCamera:JS传递过来的值为" + data);
-                openCamera();
-                function.onCallBack("JAVA注册并接收消息后发送给JS的回调:" + data);
-            }
-
-        });
-        webView.registerHandler("getImage", new BridgeHandler() {
-
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                Log.i("CSD", "getImage:JS传递过来的值为" + data);
-                openImage();
-                function.onCallBack("JAVA注册并接收消息后发送给JS的回调:" + data);
-            }
-
-        });
-        webView.registerHandler("getVideo", new BridgeHandler() {
-
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                Log.i("CSD", "getVideo:JS传递过来的值为" + data);
-                openVideo();
-                function.onCallBack("JAVA注册并接收消息后发送给JS的回调:" + data);
-            }
-
-        });
-        webView.registerHandler("getAudio", new BridgeHandler() {
-
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                Log.i("CSD", "getAudio:JS传递过来的值为" + data);
-                openAudio();
-                function.onCallBack("JAVA注册并接收消息后发送给JS的回调:" + data);
-            }
-
-        });
+        webView.addJavascriptInterface(new AndroidJavaScript(), "csd");
     }
 
     protected void initWebViewClient() {
@@ -409,7 +363,6 @@ public class BaseWebViewActivity extends BaseActivity {
     private void openFile() {
         //申请权限
         requestPermission(Constant.permission_CAMERA_READ_WRITE_EXTERNAL_STORAGE, Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
-        requestPermission(Constant.permission_CAMERA_READ_WRITE_EXTERNAL_STORAGE, Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
 
     }
 
@@ -446,7 +399,7 @@ public class BaseWebViewActivity extends BaseActivity {
         }
         File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            imageUri = FileProvider.getUriForFile(this, BaseCommonUtils.getCurrentProcessName(BaseSwitchUtil.mContext) + ".baseprovider", file);
+            imageUri = FileProvider.getUriForFile(this, BaseCommonUtils.getCurrentProcessName(BaseSwitchUtil.mContext) + ".provider", file);
         } else {
             imageUri = Uri.fromFile(file);
         }
@@ -521,13 +474,7 @@ public class BaseWebViewActivity extends BaseActivity {
                         stringBuffer.append("file://" + getRealFilePath(BaseWebViewActivity.this, uri));
                         String result = stringBuffer.toString();
                         //与JS方法 setCamera (camera) 交互
-//                        webView.loadUrl("javascript:setCamera('" + result + "')");
-                        webView.callHandler("setCamera", result, new CallBackFunction() {
-                            @Override
-                            public void onCallBack(String data) {
-                                Log.i("CSD", "JAVA发送消息后接收JS回调:" + data);
-                            }
-                        });
+                        webView.loadUrl("javascript:setCamera('" + result + "')");
                     }
 
                     @Override
@@ -586,13 +533,7 @@ public class BaseWebViewActivity extends BaseActivity {
                         stringBuffer.deleteCharAt(stringBuffer.length() - 1);
                         String result = stringBuffer.toString();
                         //与JS方法 setImage (image) 交互
-//                        webView.loadUrl("javascript:setImage('" + result + "')");
-                        webView.callHandler("setImage", result, new CallBackFunction() {
-                            @Override
-                            public void onCallBack(String data) {
-                                Log.i("CSD", "JAVA发送消息后接收JS回调:" + data);
-                            }
-                        });
+                        webView.loadUrl("javascript:setImage('" + result + "')");
                     }
 
                     @Override
@@ -616,13 +557,7 @@ public class BaseWebViewActivity extends BaseActivity {
                         stringBuffer.append("file://" + imageRadioResultEvent.getResult().getOriginalPath());
                         String result = stringBuffer.toString();
                         //与JS方法 setVideo (video) 交互
-//                        webView.loadUrl("javascript:setVideo('" + result + "')");
-                        webView.callHandler("setVideo", result, new CallBackFunction() {
-                            @Override
-                            public void onCallBack(String data) {
-                                Log.i("CSD", "JAVA发送消息后接收JS回调:" + data);
-                            }
-                        });
+                        webView.loadUrl("javascript:setVideo('" + result + "')");
                     }
                 })
                 .open();
