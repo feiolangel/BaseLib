@@ -21,6 +21,7 @@ import com.amin.baselib.BaseSwitchUtil;
 import com.amin.baselib.R;
 import com.amin.baselib.utils.BaseCommonUtils;
 import com.amin.baselib.utils.BaseTools;
+import com.bumptech.glide.Glide;
 import com.tonyodev.fetch2.Download;
 import com.tonyodev.fetch2.Error;
 import com.tonyodev.fetch2.Fetch;
