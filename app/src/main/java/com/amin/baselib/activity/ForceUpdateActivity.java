@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.amin.baselib.BaseSwitchUtil;
 import com.amin.baselib.R;
 import com.amin.baselib.utils.BaseCommonUtils;
 import com.amin.baselib.utils.BaseTools;
+import com.amin.baselib.webview.MyWebViewActivity;
 import com.bumptech.glide.Glide;
 import com.tonyodev.fetch2.Download;
 import com.tonyodev.fetch2.Error;
@@ -51,10 +53,6 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
 
     private String fileName;
 
-    private String downLoadUrl;
-    /*页面入口来源 1：A页面，2:B页面  3：H5或强更页面*/
-    private int type;
-
     private ImageView iv_update_background;
 
     private TextView tv_update;
@@ -63,11 +61,30 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
     private TextView tv_update_introduce;
 
     private ProgressBar progressBar_update;
+    private RelativeLayout update_progress;
 
     private Request request;
     private Fetch fetch;
 
     private static final int STORAGE_PERMISSION_CODE = 100;
+
+    public static final String KEY_URL = "KEY_URL";
+    public static final String KEY_PROGRESS = "KEY_PROGRESS";
+    public static final String KEY_BG = "KEY_BG";
+
+    private String bg;
+    private String url;
+    private boolean show;//是否显示进度条
+
+    public static void startActivity(Context context, String bg, String url,boolean show) {
+        Intent intent = new Intent(context, ForceUpdateActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_BG, bg);
+        bundle.putString(KEY_URL, url);
+        bundle.putBoolean(KEY_PROGRESS, show);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +93,12 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
 
         setContentView(R.layout.activity_force_update_base);
 
-        getIntent().getPackage();
-
-        type = getIntent().getIntExtra("type", 0);
-        downLoadUrl = getIntent().getStringExtra("downLoadUrl");
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            bg = bundle.getString(KEY_BG);
+            url = bundle.getString(KEY_URL);
+            show = bundle.getBoolean(KEY_PROGRESS,true);
+        }
 
         final FetchConfiguration fetchConfiguration = new FetchConfiguration.Builder(this)
                 .enableRetryOnNetworkGain(true)
@@ -99,11 +118,17 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
         dirPath = BaseTools.getRootDirPath(getApplicationContext());
 
         iv_update_background = findViewById(R.id.iv_update_background);
-//        Glide.with(this).load("file:///android_asset/update_default.jpg").into(iv_update_background);
+        if(!bg.equals("")){
+
+            Glide.with(this).load(bg).into(iv_update_background);
+
+        }
+
         tv_update = findViewById(R.id.tv_update);
         tv_update_num = findViewById(R.id.tv_update_num);
         (tv_install = findViewById(R.id.tv_install)).setOnClickListener(this);
         tv_update_introduce = findViewById(R.id.tv_update_introduce);
+        update_progress = findViewById(R.id.update_progress);
 
         tv_install.setVisibility(View.INVISIBLE);
 
@@ -114,6 +139,15 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
         fileName = System.currentTimeMillis() + ".apk";
 
         fetch = Fetch.Impl.getDefaultInstance();
+
+        if(!show){
+
+            update_progress.setVisibility(View.INVISIBLE);
+
+        }
+
+
+
 
         checkStoragePermission();
 //        enqueueDownload();
@@ -140,7 +174,7 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
 
     private void enqueueDownload() {
         final String filePath = dirPath + "/apk/" + fileName;
-        request = new Request(downLoadUrl, filePath);
+        request = new Request(url, filePath);
         request.setPriority(Priority.HIGH);
         request.setNetworkType(NetworkType.ALL);
         request.setExtras(getExtrasForRequest(request));

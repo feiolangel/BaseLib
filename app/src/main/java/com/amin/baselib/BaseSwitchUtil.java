@@ -38,6 +38,7 @@ public class BaseSwitchUtil {
     public String mTag = "";
     public String mPrivacyUrl = "file:///android_asset/privacybase.html";
     public String mUserAgreementUrl = "file:///android_asset/useragreementbase.html";
+    public String mUpdateBG = "";
     public String mShowText = "";
     public static Class mClass = null;
     public static Activity mActivity;
@@ -45,6 +46,7 @@ public class BaseSwitchUtil {
     private static boolean useIntent = false;
     private boolean mJump = true;
     private boolean mShow = true;
+    private boolean showProgressBar = true;
     private static Intent mIntent;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
@@ -116,9 +118,11 @@ public class BaseSwitchUtil {
 
                     } else {
 
-                        mContext.startActivity(new Intent(mContext, ForceUpdateActivity.class)
-                                .putExtra("downLoadUrl", info.downloadUrl)
-                        );
+                        ForceUpdateActivity.startActivity(mContext,mUpdateBG,info.downloadUrl,showProgressBar);
+
+//                        mContext.startActivity(new Intent(mContext, ForceUpdateActivity.class)
+//                                .putExtra("downLoadUrl", info.downloadUrl)
+//                        );
 
                     }
 
@@ -165,6 +169,20 @@ public class BaseSwitchUtil {
 
         mTag = tag;
 
+        return this;
+
+    }
+
+    public BaseSwitchUtil setBG(String bg) {
+
+        mUpdateBG = bg;
+        return this;
+
+    }
+
+    public BaseSwitchUtil setShowProgressBar(boolean show) {
+
+        showProgressBar = show;
         return this;
 
     }
@@ -304,9 +322,11 @@ public class BaseSwitchUtil {
 
                         } else {
 
-                            mContext.startActivity(new Intent(mContext, ForceUpdateActivity.class)
-                                    .putExtra("downLoadUrl", avObjects.get(0).getString("downloadUrl"))
-                            );
+//                            mContext.startActivity(new Intent(mContext, ForceUpdateActivity.class)
+//                                    .putExtra("downLoadUrl", avObjects.get(0).getString("downloadUrl"))
+//                            );
+
+                            ForceUpdateActivity.startActivity(mContext,mUpdateBG,avObjects.get(0).getString("downloadUrl"),showProgressBar);
 
                         }
 

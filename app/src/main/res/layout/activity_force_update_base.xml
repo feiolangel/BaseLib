@@ -10,8 +10,10 @@
         android:scaleType="fitXY"/>
 
     <RelativeLayout
+        android:id="@+id/update_progress"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_centerInParent="true"
+        android:layout_height="180px">
 
         <TextView
             android:id="@+id/tv_update"
@@ -56,13 +58,15 @@
             android:textColor="#7c7c7c"
             android:textSize="32px" />
 
+    </RelativeLayout>
+
         <TextView
             android:id="@+id/tv_install"
             android:layout_width="260px"
             android:layout_height="60px"
             android:layout_marginTop="30px"
             android:background="@drawable/base_round_9c1212_45dip"
-            android:layout_below="@id/tv_update_num"
+            android:layout_below="@id/update_progress"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="立即安装"
@@ -82,6 +86,6 @@
             android:text=""
             android:textSize="34px"/>
 
-    </RelativeLayout>
+
 
 </RelativeLayout>
