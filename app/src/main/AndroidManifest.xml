@@ -82,7 +82,7 @@
 
         <!--兼容7.x-->
         <provider
-            android:name="androidx.core.content.FileProvider"
+            android:name="com.amin.baselib.app.BaseFileProvider"
             android:authorities="${applicationId}.baseprovider"
             android:exported="false"
             android:grantUriPermissions="true">
