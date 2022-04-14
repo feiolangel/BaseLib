@@ -46,7 +46,8 @@
             android:name="com.amin.baselib.webview.MyWebViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!--隐私协议弹窗-->
         <activity
