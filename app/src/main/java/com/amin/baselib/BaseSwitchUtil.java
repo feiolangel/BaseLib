@@ -35,7 +35,7 @@ public class BaseSwitchUtil {
 
     public static Context mContext = null;
     public String mPackageName = "";
-    public String mTag = "";
+    public static String mTag = "";
     public String mPrivacyUrl = "file:///android_asset/privacybase.html";
     public String mUserAgreementUrl = "file:///android_asset/useragreementbase.html";
     public String mUpdateBG = "";

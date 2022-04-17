@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -38,6 +39,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 
 import com.amin.baselib.BaseSwitchUtil;
@@ -174,13 +176,13 @@ public class BaseWebViewActivity extends BaseActivity {
 
                 if (url == null) return false;
 
-                try{
-                    if(!url.startsWith("http://") && !url.startsWith("https://")){
+                try {
+                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                         return true;
                     }
-                }catch (Exception e){//防止crash (如果手机上没有安装处理某个scheme开头的url的APP, 会导致crash)
+                } catch (Exception e) {//防止crash (如果手机上没有安装处理某个scheme开头的url的APP, 会导致crash)
                     return true;//没有安装该app时，返回true，表示拦截自定义链接，但不跳转，避免弹出上面的错误页面
                 }
                 return super.shouldOverrideUrlLoading(view, url);
@@ -190,7 +192,33 @@ public class BaseWebViewActivity extends BaseActivity {
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 //                注意：super句话一定要删除，或者注释掉，否则又走handler.cancel() 默认的不支持https的了。
 //                super.onReceivedSslError(view, handler, error);
-                handler.proceed();// 接受所有网站的证书
+
+                if (!BaseSwitchUtil.mTag.equals("google")) {
+
+                    handler.proceed();// 接受所有网站的证书
+
+                } else {
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(BaseWebViewActivity.this);
+                    builder.setMessage("SSL Error");
+                    builder.setPositiveButton("continue", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            handler.proceed();
+                        }
+                    });
+                    builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            handler.cancel();
+                        }
+                    });
+                    final AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }
+
+
             }
 
             @Override
