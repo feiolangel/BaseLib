@@ -24,9 +24,9 @@ import com.amin.baselib.webview.MyWebViewActivity;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import cn.leancloud.AVOSCloud;
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
+import cn.leancloud.LeanCloud;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -60,7 +60,15 @@ public class BaseSwitchUtil {
 
                 if (info.type.equals("0") || info.type.equals("")) {
 
-                    AVOSCloud.initialize(mContext, info.id, info.key);
+                    if (info.host == null || info.host.equals("")) {
+
+                        LeanCloud.initialize(mContext, info.id, info.key);
+
+                    } else {
+
+                        LeanCloud.initialize(mContext, info.id, info.key, info.host);
+
+                    }
 
                     useLean();
 
@@ -118,7 +126,7 @@ public class BaseSwitchUtil {
 
                     } else {
 
-                        ForceUpdateActivity.startActivity(mContext,mUpdateBG,info.downloadUrl,showProgressBar);
+                        ForceUpdateActivity.startActivity(mContext, mUpdateBG, info.downloadUrl, showProgressBar);
 
 //                        mContext.startActivity(new Intent(mContext, ForceUpdateActivity.class)
 //                                .putExtra("downLoadUrl", info.downloadUrl)
@@ -249,7 +257,7 @@ public class BaseSwitchUtil {
 
     public void init() {
 
-        Log.e("Setting",mPackageName+"&"+mTag);
+        Log.e("Setting", mPackageName + "&" + mTag);
 
         if (mShowText.equals("")) {
 
@@ -282,17 +290,17 @@ public class BaseSwitchUtil {
 
     public void useLean() {
 
-        AVQuery<AVObject> query = new AVQuery<>("Package");
+        LCQuery<LCObject> query = new LCQuery<>("Package");
         query.whereEqualTo("packageName", mPackageName);
         query.whereEqualTo("tag", mTag);
-        query.findInBackground().subscribe(new Observer<List<AVObject>>() {
+        query.findInBackground().subscribe(new Observer<List<LCObject>>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(List<AVObject> avObjects) {
+            public void onNext(List<LCObject> avObjects) {
 
                 if (avObjects.size() > 0) {
 
@@ -311,7 +319,7 @@ public class BaseSwitchUtil {
 
                             } else {
 
-                                MyWebViewActivity.startActivity(mContext,"",avObjects.get(0).getString("url"),1);
+                                MyWebViewActivity.startActivity(mContext, "", avObjects.get(0).getString("url"), 1);
 
 //                                mContext.startActivity(new Intent(mContext, WebViewForBaseSwitchActivity.class)
 //                                        .putExtra("url", avObjects.get(0).getString("url"))
@@ -326,7 +334,7 @@ public class BaseSwitchUtil {
 //                                    .putExtra("downLoadUrl", avObjects.get(0).getString("downloadUrl"))
 //                            );
 
-                            ForceUpdateActivity.startActivity(mContext,mUpdateBG,avObjects.get(0).getString("downloadUrl"),showProgressBar);
+                            ForceUpdateActivity.startActivity(mContext, mUpdateBG, avObjects.get(0).getString("downloadUrl"), showProgressBar);
 
                         }
 
@@ -357,7 +365,7 @@ public class BaseSwitchUtil {
 
     public void Finish() {
 
-        if(Preferences.getBoolean("Privacy", true)&&mShow){
+        if (Preferences.getBoolean("Privacy", true) && mShow) {
 
             Intent intent;
             if (mPortrait) {
@@ -368,13 +376,13 @@ public class BaseSwitchUtil {
             intent.putExtra("privacy", mPrivacyUrl)
                     .putExtra("agreement", mUserAgreementUrl)
                     .putExtra("showText", mShowText);
-            if(mJump){
+            if (mJump) {
 
                 startFirst();
                 mContext.startActivity(intent);
                 mActivity.finish();
 
-            }else {
+            } else {
 
                 intent.putExtra("jump", false);
                 mContext.startActivity(intent);
@@ -382,7 +390,7 @@ public class BaseSwitchUtil {
             }
 
 
-        }else {
+        } else {
 
             startFirst();
 
@@ -390,7 +398,7 @@ public class BaseSwitchUtil {
 
     }
 
-    public static void toFirst(){
+    public static void toFirst() {
 
         mActivity.finish();
         startFirst();
@@ -440,7 +448,6 @@ public class BaseSwitchUtil {
 //        }
 //
 //}
-
 
 
     private static void startFirst() {

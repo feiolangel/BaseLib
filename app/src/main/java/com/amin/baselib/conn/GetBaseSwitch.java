@@ -35,6 +35,8 @@ public class GetBaseSwitch extends HttpUrlGet<GetBaseSwitch.Info> {
 
         info.key = jsonObject.optString("key");
 
+        info.host = jsonObject.optString("host");
+
         info.type = jsonObject.optString("type");
 
         info.url = jsonObject.optString("url");
@@ -52,6 +54,9 @@ public class GetBaseSwitch extends HttpUrlGet<GetBaseSwitch.Info> {
 
         /*Lean key*/
         public String key;
+
+        /*Lean host*/
+        public String host;
 
         /*接口方式 0：lean，1：bmob*/
         public String type;
