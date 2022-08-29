@@ -133,11 +133,7 @@ public class UserAgreementLandscapeBaseActivity extends MyActivity implements Vi
 
             Preferences.edit().putBoolean("Privacy",false).commit();
 
-            if(!mJump){
-
-                BaseSwitchUtil.toFirst();
-
-            }
+            BaseSwitchUtil.toFirst();
 
             finish();
 

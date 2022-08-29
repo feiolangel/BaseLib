@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.amin.baselib.ScreenHelper.ScaleScreenHelper;
@@ -21,7 +19,6 @@ import com.amin.baselib.http.MyCallback;
 import com.amin.baselib.utils.BaseCommonUtils;
 import com.amin.baselib.webview.MyWebViewActivity;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import cn.leancloud.LCObject;
@@ -34,25 +31,24 @@ import io.reactivex.disposables.Disposable;
 public class BaseSwitchUtil {
 
     public static Context mContext = null;
-    public String mPackageName = "";
+    public static String mPackageName = "";
     public static String mTag = "";
-    public String mPrivacyUrl = "file:///android_asset/privacybase.html";
-    public String mUserAgreementUrl = "file:///android_asset/useragreementbase.html";
-    public String mUpdateBG = "";
-    public String mShowText = "";
+    public static String mPrivacyUrl = "file:///android_asset/privacybase.html";
+    public static String mUserAgreementUrl = "file:///android_asset/useragreementbase.html";
+    public static String mUpdateBG = "";
+    public static String mShowText = "";
     public static Class mClass = null;
     public static Activity mActivity;
-    public boolean mPortrait = true;
+    public static boolean mPortrait = true;
     private static boolean useIntent = false;
-    private boolean mJump = true;
-    private boolean mShow = true;
-    private boolean showProgressBar = true;
+    private static boolean mShow = true;
+    private static boolean showProgressBar = true;
     private static Intent mIntent;
     public static SharedPreferences Preferences;
     public static ScaleScreenHelper scaleScreenHelper;
     public static ScaleScreenHelperFactory mFactory;
 
-    public GetBaseSwitch getBaseSwitch = new GetBaseSwitch(new MyCallback<GetBaseSwitch.Info>() {
+    public static GetBaseSwitch getBaseSwitch = new GetBaseSwitch(new MyCallback<GetBaseSwitch.Info>() {
         @Override
         public void onSuccess(GetBaseSwitch.Info info) {
 
@@ -83,7 +79,7 @@ public class BaseSwitchUtil {
 
             } else {
 
-                Finish();
+                startFirst();
 
             }
 
@@ -92,12 +88,12 @@ public class BaseSwitchUtil {
         @Override
         public void onFail(String msg) {
 
-            Finish();
+            startFirst();
 
         }
     });
 
-    public GetBmobSwitch getBmobSwitch = new GetBmobSwitch(new MyCallback<GetBmobSwitch.Info>() {
+    public static GetBmobSwitch getBmobSwitch = new GetBmobSwitch(new MyCallback<GetBmobSwitch.Info>() {
         @Override
         public void onSuccess(GetBmobSwitch.Info info) {
 
@@ -137,14 +133,14 @@ public class BaseSwitchUtil {
 
                 } else {
 
-                    Finish();
+                    startFirst();
 
                 }
 
 
             } else {
 
-                Finish();
+                startFirst();
 
             }
 
@@ -153,7 +149,7 @@ public class BaseSwitchUtil {
         @Override
         public void onFail(String msg) {
 
-            Finish();
+            startFirst();
 
         }
     });
@@ -233,13 +229,6 @@ public class BaseSwitchUtil {
 
     }
 
-    public BaseSwitchUtil setJump(boolean jump) {
-
-        mJump = jump;
-        return this;
-
-    }
-
     public BaseSwitchUtil setFirstIntent(Intent intent) {
 
         mIntent = intent;
@@ -281,6 +270,14 @@ public class BaseSwitchUtil {
 
         }
 
+        showPrivacy();
+
+
+
+    }
+
+    private static void  useBase(){
+
         getBaseSwitch.packageName = mPackageName;
         getBaseSwitch.tag = mTag;
         getBaseSwitch.execute();
@@ -288,7 +285,10 @@ public class BaseSwitchUtil {
     }
 
 
-    public void useLean() {
+
+
+
+    public static void useLean() {
 
         LCQuery<LCObject> query = new LCQuery<>("Package");
         query.whereEqualTo("packageName", mPackageName);
@@ -340,7 +340,7 @@ public class BaseSwitchUtil {
 
                     } else {
 
-                        Finish();
+                        startFirst();
 
                     }
 
@@ -351,7 +351,7 @@ public class BaseSwitchUtil {
             @Override
             public void onError(Throwable e) {
 
-                Finish();
+                startFirst();
 
             }
 
@@ -363,7 +363,7 @@ public class BaseSwitchUtil {
 
     }
 
-    public void Finish() {
+    public static void showPrivacy() {
 
         if (Preferences.getBoolean("Privacy", true) && mShow) {
 
@@ -376,23 +376,12 @@ public class BaseSwitchUtil {
             intent.putExtra("privacy", mPrivacyUrl)
                     .putExtra("agreement", mUserAgreementUrl)
                     .putExtra("showText", mShowText);
-            if (mJump) {
 
-                startFirst();
-                mContext.startActivity(intent);
-                mActivity.finish();
-
-            } else {
-
-                intent.putExtra("jump", false);
-                mContext.startActivity(intent);
-
-            }
-
+            mContext.startActivity(intent);
 
         } else {
 
-            startFirst();
+            toFirst();
 
         }
 
@@ -400,8 +389,7 @@ public class BaseSwitchUtil {
 
     public static void toFirst() {
 
-        mActivity.finish();
-        startFirst();
+        useBase();
 
     }
 
@@ -451,6 +439,8 @@ public class BaseSwitchUtil {
 
 
     private static void startFirst() {
+
+        mActivity.finish();
 
         if (useIntent) {
 

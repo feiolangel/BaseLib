@@ -28,7 +28,7 @@ import com.amin.baselib.utils.BaseCommonUtils;
  */
 public class UserAgreementBaseActivity extends MyActivity implements View.OnClickListener {
 
-    private TextView tv_privacy,tv_explain,tv_refuse,tv_confirm;
+    private TextView tv_privacy, tv_explain, tv_refuse, tv_confirm;
 
     public static SharedPreferences Preferences;
 
@@ -47,10 +47,10 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
         mPrivacyUrl = getIntent().getStringExtra("privacy");
         mAgreementUrl = getIntent().getStringExtra("agreement");
         mShowText = getIntent().getStringExtra("showText");
-        mJump = getIntent().getBooleanExtra("jump",true);
+        mJump = getIntent().getBooleanExtra("jump", true);
         this.setFinishOnTouchOutside(false);
 
-        if(Preferences == null){
+        if (Preferences == null) {
 
             Preferences = this.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(this), Context.MODE_PRIVATE);
 
@@ -78,8 +78,8 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
             @Override
             public void onClick(@NonNull View widget) {
 
-                startActivity(new Intent(UserAgreementBaseActivity.this,WebViewNoHideBaseActivity.class)
-                        .putExtra("url",mAgreementUrl)
+                startActivity(new Intent(UserAgreementBaseActivity.this, WebViewNoHideBaseActivity.class)
+                        .putExtra("url", mAgreementUrl)
                         .putExtra("title", "用户协议")
                 );
 
@@ -96,7 +96,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
             @Override
             public void onClick(@NonNull View widget) {
 
-                startActivity(new Intent(UserAgreementBaseActivity.this,WebViewNoHideBaseActivity.class)
+                startActivity(new Intent(UserAgreementBaseActivity.this, WebViewNoHideBaseActivity.class)
                         .putExtra("url", mPrivacyUrl)
                         .putExtra("title", "隐私政策")
                 );
@@ -110,8 +110,8 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
             }
         };
 
-        spannableBuilder.setSpan(clickableSpan1,index1,index1+6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableBuilder.setSpan(clickableSpan2,index2,index2+6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableBuilder.setSpan(clickableSpan1, index1, index1 + 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableBuilder.setSpan(clickableSpan2, index2, index2 + 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tv_privacy.setMovementMethod(LinkMovementMethod.getInstance());
         tv_privacy.setText(spannableBuilder);
@@ -132,13 +132,10 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
 
         } else if (id == R.id.tv_confirm) {
 
-            Preferences.edit().putBoolean("Privacy",false).commit();
+            Preferences.edit().putBoolean("Privacy", false).commit();
 
-            if(!mJump){
+            BaseSwitchUtil.toFirst();
 
-                BaseSwitchUtil.toFirst();
-
-            }
             finish();
 
         }
