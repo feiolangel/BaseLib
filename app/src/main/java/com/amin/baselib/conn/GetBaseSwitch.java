@@ -11,7 +11,7 @@ import org.json.JSONObject;
  * Created by Administrator on 2016/3/2.
  */
 
-@HttpServer("http://cloud.bmob.cn/7531d7165cf80273/BaseSwitch")
+@HttpServer("http://cloud.bmobapp.com/7531d7165cf80273/BaseSwitch")
 public class GetBaseSwitch extends HttpUrlGet<GetBaseSwitch.Info> {
 
     public String packageName = "";
