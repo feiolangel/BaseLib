@@ -255,7 +255,7 @@ public class BaseSwitchUtil {
         }
 
         if (Preferences == null) {
-            Preferences = mContext.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(mContext), Context.MODE_PRIVATE);
+            Preferences = mContext.getSharedPreferences(mPackageName, Context.MODE_PRIVATE);
         }
 
         if (mPortrait) {

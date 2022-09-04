@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amin.baselib.BaseSwitchUtil;
 import com.amin.baselib.R;
 import com.amin.baselib.utils.BaseCommonUtils;
 
@@ -44,7 +45,7 @@ public class PrivacyDialogBaseActivity extends AppCompatActivity implements View
 
         if(Preferences == null){
 
-            Preferences = this.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(this), Context.MODE_PRIVATE);
+            Preferences = this.getSharedPreferences(BaseSwitchUtil.mPackageName, Context.MODE_PRIVATE);
 
         }
 

@@ -211,7 +211,7 @@ public class ForceUpdateActivity extends AppCompatActivity implements View.OnCli
             //判断是否是AndroidN以及更高的版本
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                Uri contentUri = FileProvider.getUriForFile(context, BaseCommonUtils.getCurrentProcessName(BaseSwitchUtil.mContext) + ".baseprovider", file);
+                Uri contentUri = FileProvider.getUriForFile(context, BaseSwitchUtil.mPackageName + ".baseprovider", file);
                 i.setDataAndType(contentUri, "application/vnd.android.package-archive");
             } else {
                 i.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");

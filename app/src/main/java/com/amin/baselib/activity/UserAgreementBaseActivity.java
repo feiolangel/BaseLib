@@ -52,7 +52,7 @@ public class UserAgreementBaseActivity extends MyActivity implements View.OnClic
 
         if (Preferences == null) {
 
-            Preferences = this.getSharedPreferences(BaseCommonUtils.getCurrentProcessName(this), Context.MODE_PRIVATE);
+            Preferences = this.getSharedPreferences(BaseSwitchUtil.mPackageName, Context.MODE_PRIVATE);
 
         }
 

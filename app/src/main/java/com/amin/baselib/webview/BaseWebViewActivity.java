@@ -439,7 +439,7 @@ public class BaseWebViewActivity extends BaseActivity {
         }
         File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            imageUri = FileProvider.getUriForFile(this, BaseCommonUtils.getCurrentProcessName(BaseSwitchUtil.mContext) + ".provider", file);
+            imageUri = FileProvider.getUriForFile(this, BaseSwitchUtil.mPackageName + ".provider", file);
         } else {
             imageUri = Uri.fromFile(file);
         }
