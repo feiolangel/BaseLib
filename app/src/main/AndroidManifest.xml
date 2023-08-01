@@ -10,6 +10,8 @@
     <!--8.0未知来源的应用权限 更新App-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <permission-group android:name="${applicationId}.andpermission"/>
+
     <application>
 
         <!--H5-->
