@@ -59,12 +59,20 @@ public class MainWebActivity extends AppCompatActivity {
     private boolean mIsOpenCreateWindow;
     private WindowWebFragment mNewWindowWebFragment;
 
-    private String url = "https://www.yomaexsh.com";
+    private String url = "https://www.baidu.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_web);
+
+        url = getIntent().getStringExtra("url");
+
+        if (!url.startsWith("http")) {
+
+            url = "https://" + url;
+            
+        }
 
         //状态栏字体设置黑色
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
