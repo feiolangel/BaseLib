@@ -49,8 +49,8 @@
     <string name="message_error_storage">请检查外部存储设备</string>
     <!--    动态权限相关 end-->
 
-    <string name="album">%1s</string>
-    <string name="camera">%1s</string>
+    <string name="album_web">%1s</string>
+    <string name="camera_web">%1s</string>
     <string name="cancel_web">%1s</string>
 
 </resources>

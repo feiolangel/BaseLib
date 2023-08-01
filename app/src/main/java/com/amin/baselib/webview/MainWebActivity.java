@@ -141,8 +141,8 @@ public class MainWebActivity extends AppCompatActivity {
         // 取消
         TextView cancel = view.findViewById(R.id.tv_select_pictrue_cancel);
 
-        String this_Album =  String.format(getResources().getString(R.string.album), BaseSwitchUtil.mAlbum);
-        String this_Camera = String.format(getResources().getString(R.string.camera), BaseSwitchUtil.mCamera);
+        String this_Album =  String.format(getResources().getString(R.string.album_web), BaseSwitchUtil.mAlbum);
+        String this_Camera = String.format(getResources().getString(R.string.camera_web), BaseSwitchUtil.mCamera);
         String this_Cancel = String.format(getResources().getString(R.string.cancel_web), BaseSwitchUtil.mCancel_web);
 
         album.setText(this_Album);
