@@ -94,9 +94,8 @@
         </provider>
 
 
-
         <provider
-            android:name="androidx.core.content.FileProvider"
+            android:name=".webview.UploadFileProvider"
             android:authorities="${applicationId}.UploadFileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
