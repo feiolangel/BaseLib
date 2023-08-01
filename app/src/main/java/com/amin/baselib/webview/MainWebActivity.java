@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.amin.baselib.BaseSwitchUtil;
 import com.amin.baselib.R;
 
 import java.io.File;
@@ -71,7 +72,7 @@ public class MainWebActivity extends AppCompatActivity {
         if (!url.startsWith("http")) {
 
             url = "https://" + url;
-            
+
         }
 
         //状态栏字体设置黑色
@@ -139,6 +140,15 @@ public class MainWebActivity extends AppCompatActivity {
         TextView camera = view.findViewById(R.id.tv_select_pictrue_camera);
         // 取消
         TextView cancel = view.findViewById(R.id.tv_select_pictrue_cancel);
+
+        String this_Album =  String.format(getResources().getString(R.string.album), BaseSwitchUtil.mAlbum);
+        String this_Camera = String.format(getResources().getString(R.string.camera), BaseSwitchUtil.mCamera);
+        String this_Cancel = String.format(getResources().getString(R.string.cancel_web), BaseSwitchUtil.mCancel_web);
+
+        album.setText(this_Album);
+        camera.setText(this_Camera);
+        cancel.setText(this_Cancel);
+
 
         album.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)

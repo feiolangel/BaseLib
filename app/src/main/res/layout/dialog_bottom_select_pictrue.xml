@@ -18,7 +18,7 @@
         android:paddingLeft="16dp"
         android:paddingTop="12dp"
         android:gravity="center"
-        android:text="@string/album"
+        android:text=""
         android:textColor="#555555"
         android:textSize="14sp" />
 
@@ -35,7 +35,7 @@
         android:paddingLeft="16dp"
         android:gravity="center"
         android:paddingTop="12dp"
-        android:text="@string/camera"
+        android:text=""
         android:textColor="#555555"
         android:textSize="14sp" />
 
@@ -52,7 +52,7 @@
         android:paddingLeft="16dp"
         android:gravity="center"
         android:paddingTop="12dp"
-        android:text="@string/cancel_web"
+        android:text=""
         android:textColor="#999999"
         android:textSize="14sp" />
 

@@ -37,6 +37,11 @@ public class BaseSwitchUtil {
     public static String mUserAgreementUrl = "file:///android_asset/useragreementbase.html";
     public static String mUpdateBG = "";
     public static String mShowText = "";
+
+    //图片选择提示框文字
+    public static String mAlbum = "相册";
+    public static String mCamera = "相机";
+    public static String mCancel_web = "取消";
     public static Class mClass = null;
     public static Activity mActivity;
     public static boolean mPortrait = true;
@@ -240,6 +245,15 @@ public class BaseSwitchUtil {
     public BaseSwitchUtil setShow(boolean show) {
 
         mShow = show;
+        return this;
+
+    }
+
+    public BaseSwitchUtil setPicDialogString(String album,String camera,String cancel_web) {
+
+        mAlbum = album;
+        mCamera = camera;
+        mCancel_web = cancel_web;
         return this;
 
     }
